@@ -34,9 +34,10 @@ public class User {
     private Post heart;
 
     @Builder
-    public User(String uid, String pwd, String name){
+    public User(String uid, String pwd, String name, String authority){
         this.uid = uid;
         this.pwd = pwd;
         this.name = name;
+        this.authority = authority;
     }
 }

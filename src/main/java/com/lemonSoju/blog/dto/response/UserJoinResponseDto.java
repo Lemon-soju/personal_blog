@@ -6,13 +6,13 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class UserJoinDtoResponse {
+public class UserJoinResponseDto {
 
     @NotEmpty(message = "회원 id는 필수입니다.")
     private String uid;
 
     @Builder
-    public UserJoinDtoResponse(String uid) {
+    public UserJoinResponseDto(String uid) {
         this.uid = uid;
     }
 }
