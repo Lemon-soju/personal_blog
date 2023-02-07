@@ -2,9 +2,9 @@ package com.lemonSoju.blog.service;
 
 
 import com.lemonSoju.blog.domain.User;
-import com.lemonSoju.blog.dto.response.UserJoinResponseDto;
+import com.lemonSoju.blog.dto.response.UserSignUpResponseDto;
 import com.lemonSoju.blog.repository.UserDataRepository;
-import com.lemonSoju.blog.dto.request.UserJoinRequestDto;
+import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,17 +24,17 @@ public class UserService {
      * 회원 가입
      */
     @Transactional
-    public UserJoinResponseDto join(UserJoinRequestDto userJoinRequestDto) {
-        validateDuplicateUser(userJoinRequestDto);
-        User savedUser = userDataRepository.save(createUser(userJoinRequestDto));
-        UserJoinResponseDto userJoinResponseDto = UserJoinResponseDto.builder()
+    public UserSignUpResponseDto join(UserSignUpRequestDto userSignUpRequestDto) {
+        validateDuplicateUser(userSignUpRequestDto);
+        User savedUser = userDataRepository.save(createUser(userSignUpRequestDto));
+        UserSignUpResponseDto userSignUpResponseDto = UserSignUpResponseDto.builder()
                 .uid(savedUser.getUid())
                 .build();
-        return userJoinResponseDto;
+        return userSignUpResponseDto;
     }
 
-    private void validateDuplicateUser(UserJoinRequestDto userJoinRequestDto) {
-        Optional<User> findUsers = userDataRepository.findByUid(userJoinRequestDto.getUid());
+    private void validateDuplicateUser(UserSignUpRequestDto userSignUpRequestDto) {
+        Optional<User> findUsers = userDataRepository.findByUid(userSignUpRequestDto.getUid());
         if (!findUsers.isEmpty()) {
             throw new IllegalStateException("Already Existing User");
         }
@@ -43,11 +43,11 @@ public class UserService {
     /**
      * User 객체 생성
      */
-    public User createUser(UserJoinRequestDto userJoinRequestDto) {
+    public User createUser(UserSignUpRequestDto userSignUpRequestDto) {
         User user = User.builder()
-                .uid(userJoinRequestDto.getUid())
-                .pwd(userJoinRequestDto.getPwd())
-                .name(userJoinRequestDto.getName())
+                .uid(userSignUpRequestDto.getUid())
+                .pwd(userSignUpRequestDto.getPwd())
+                .name(userSignUpRequestDto.getName())
                 .authority("ROLE_USER")
                 .build();
         return user;
