@@ -2,6 +2,8 @@ package com.lemonSoju.blog.domain;
 
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class User {
     @Id
     @GeneratedValue
@@ -30,4 +33,10 @@ public class User {
     @JoinColumn(name = "post_id")
     private Post heart;
 
+    @Builder
+    public User(String uid, String pwd, String name){
+        this.uid = uid;
+        this.pwd = pwd;
+        this.name = name;
+    }
 }
