@@ -7,6 +7,7 @@
 - [ ] jwt 인증 구현
 - [x] UserSession 이라는 클래스가 requestDto 일 때 인증이 필요함
 
+
 ### domain
 - [ ] user - 회원 정보
 - [ ] post - 게시글 정보
