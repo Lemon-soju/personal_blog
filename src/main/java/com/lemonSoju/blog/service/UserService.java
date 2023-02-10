@@ -7,11 +7,16 @@ import com.lemonSoju.blog.dto.response.UserLoginResponseDto;
 import com.lemonSoju.blog.dto.response.UserSignUpResponseDto;
 import com.lemonSoju.blog.repository.UserDataRepository;
 import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -23,6 +28,8 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserDataRepository userDataRepository;
+    private static final String KEY = "HiThisIsLemonSojuProjectKeyValue";
+
 
     /**
      * 회원 가입
@@ -44,8 +51,18 @@ public class UserService {
         if(findUser.size() != 1) {
             throw new IllegalStateException("존재하지 않는 회원입니다");
         }
+
+        SecretKey key = Keys.hmacShaKeyFor(KEY.getBytes());
+
+        // jwt 설정
+        String jws = Jwts.builder()
+                .setSubject("Joe")
+                .signWith(key)
+                .compact();
+
         UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
                 .uid(findUser.get(0).getUid())
+                .accessToken(jws)
                 .build();
         return userLoginResponseDto;
     }

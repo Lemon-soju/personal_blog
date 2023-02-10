@@ -1,7 +1,12 @@
 ## 해야할 것
 
-- 양방향 연관관계 정리
-- jwt 로그인 및 로그아웃 구현
+- [ ] 양방향 연관관계 정리
+- [ ] jwt 로그인 및 로그아웃 구현
+- [ ] 커스텀 예외처리하기 ex) jwt
+- [ ] extends와 implements 차이 공부하기
+- [ ] jwt 인증 구현
+- [x] UserSession 이라는 클래스가 requestDto 일 때 인증이 필요함
+
 
 ### domain
 - [ ] user - 회원 정보
