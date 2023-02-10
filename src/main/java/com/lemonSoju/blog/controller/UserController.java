@@ -1,7 +1,9 @@
 package com.lemonSoju.blog.controller;
 
 
+import com.lemonSoju.blog.dto.request.UserLoginRequestDto;
 import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
+import com.lemonSoju.blog.dto.response.UserLoginResponseDto;
 import com.lemonSoju.blog.dto.response.UserSignUpResponseDto;
 import com.lemonSoju.blog.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,9 +21,15 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("user/signup")
+    @PostMapping("signup")
     public UserSignUpResponseDto userSignUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto) {
         log.info("회원가입 시도");
         return userService.join(userSignUpRequestDto);
+    }
+
+    @PostMapping("login")
+    public UserLoginResponseDto userLogin(@RequestBody @Valid UserLoginRequestDto userLoginRequestDto) {
+        log.info("로그인 시도");
+        return userService.login(userLoginRequestDto);
     }
 }

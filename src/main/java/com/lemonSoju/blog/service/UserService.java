@@ -2,6 +2,8 @@ package com.lemonSoju.blog.service;
 
 
 import com.lemonSoju.blog.domain.User;
+import com.lemonSoju.blog.dto.request.UserLoginRequestDto;
+import com.lemonSoju.blog.dto.response.UserLoginResponseDto;
 import com.lemonSoju.blog.dto.response.UserSignUpResponseDto;
 import com.lemonSoju.blog.repository.UserDataRepository;
 import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
@@ -10,7 +12,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -33,6 +37,18 @@ public class UserService {
         return userSignUpResponseDto;
     }
 
+    public UserLoginResponseDto login(UserLoginRequestDto userLoginRequestDto) {
+
+        List<User> findUser = userDataRepository.findByUid(userLoginRequestDto.getUid())
+                .stream().filter(m -> m.getPwd().equals(userLoginRequestDto.getPwd())).collect(Collectors.toList());
+        if(findUser.size() != 1) {
+            throw new IllegalStateException("존재하지 않는 회원입니다");
+        }
+        UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
+                .uid(findUser.get(0).getUid())
+                .build();
+        return userLoginResponseDto;
+    }
     private void validateDuplicateUser(UserSignUpRequestDto userSignUpRequestDto) {
         Optional<User> findUsers = userDataRepository.findByUid(userSignUpRequestDto.getUid());
         if (!findUsers.isEmpty()) {
