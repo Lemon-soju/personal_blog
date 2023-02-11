@@ -15,8 +15,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Base64;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 public class UserService {
 
     private final UserDataRepository userDataRepository;
-    private static final String KEY = "HiThisIsLemonSojuProjectKeyValue";
+    private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
 
 
     /**
@@ -52,7 +53,7 @@ public class UserService {
             throw new IllegalStateException("존재하지 않는 회원입니다");
         }
 
-        SecretKey key = Keys.hmacShaKeyFor(KEY.getBytes());
+        Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode((KEY)));
 
         // jwt 설정
         String jws = Jwts.builder()

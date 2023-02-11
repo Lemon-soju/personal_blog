@@ -30,7 +30,6 @@ public class UserController {
 
     @GetMapping("test")
     public String test2(UserSession userSession) {
-        log.info(">>>{}", userSession.name);
         return userSession.name;
     }
 
