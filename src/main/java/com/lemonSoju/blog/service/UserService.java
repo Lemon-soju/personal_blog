@@ -17,7 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.Duration;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -56,9 +58,14 @@ public class UserService {
         Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode((KEY)));
 
         // jwt 설정
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
+
         String jws = Jwts.builder()
-                .setSubject("Joe")
-                .signWith(key)
+                .setSubject(findUser.get(0).getUid())
+                .setIssuedAt(now) // 발급시간(iat)
+                .setExpiration(expiration) // 만료시간(exp)
+                .signWith(key) // 사용자 uid
                 .compact();
 
         UserLoginResponseDto userLoginResponseDto = UserLoginResponseDto.builder()
