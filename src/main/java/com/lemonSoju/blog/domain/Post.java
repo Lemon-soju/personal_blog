@@ -1,6 +1,8 @@
 package com.lemonSoju.blog.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,6 +14,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 public class Post {
     @Id
     @GeneratedValue
@@ -26,4 +29,11 @@ public class Post {
 
     @OneToMany(mappedBy = "heart")
     private List<User> hearts = new ArrayList<>();
+
+    @Builder
+    public Post(String title, String content, User writer){
+        this.title = title;
+        this.content = content;
+        this.writer = writer;
+    }
 }

@@ -1,24 +1,24 @@
 ## 해야할 것
 
 - [ ] 양방향 연관관계 정리
-- [ ] jwt 로그인 및 로그아웃 구현
-- [ ] 커스텀 예외처리하기 ex) jwt
+- [ ] jwt 인증을 이용한 로그아웃 구현
+- [x] 커스텀 예외처리하기 ex) jwt
 - [ ] extends와 implements 차이 공부하기
-- [ ] jwt 인증 구현
-- [x] UserSession 이라는 클래스가 requestDto 일 때 인증이 필요함
-- [ ] jwt 인증 Resolver가 아닌 Interceptor로 구현하기
+- [x] jwt 토큰 생성
+- [x] jwt 인증 Resolver가 아닌 Interceptor로 구현하기
 
 
 ### domain
-- [ ] user - 회원 정보
-- [ ] post - 게시글 정보
-
-### controller
-
+- [x] user - 회원 정보
+- [x] post - 게시글 정보
 
 ### service
-- [ ] write - 글 작성
-- [ ] read - 글 읽기
+- [ ] 글 작성 기능
+- [ ] 글 읽기 기능
+- [ ] 글 삭제 기능
+- [ ] 글 수정 기능
+- [x] 로그인 기능
+- [x] 회원가입 기능
 
 ## 도전
 - 좋아요 기능
