@@ -1,7 +1,9 @@
 package com.lemonSoju.blog.config;
 
 import com.lemonSoju.blog.repository.UserDataRepository;
+import com.lemonSoju.blog.service.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -13,26 +15,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    private final UserDataRepository userDataRepository;
-
-
-
-//    private final long MAX_AGE_SECS = 3600;
-
-//    @Override
-//    public void addCorsMappings(CorsRegistry registry){
-//        registry.addMapping("/**")
-//                .allowedOriginPatterns("*")
-//                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-//                .allowedHeaders("*")
-//                .allowCredentials(true)
-//                .maxAge(MAX_AGE_SECS);
-//    }
-
+    private final JwtService jwtService;
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor(userDataRepository))
+        registry.addInterceptor(new AuthInterceptor(jwtService))
                 .excludePathPatterns("/error, /favicon.ico", "/signup", "/login");
     }
 }

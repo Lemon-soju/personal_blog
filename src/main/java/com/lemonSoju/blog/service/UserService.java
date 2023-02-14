@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
-@RequiredArgsConstructor // final이 붙은 클래스 자동으로 인젝션하여 생성자를 생성한다
+@RequiredArgsConstructor
 @Slf4j
 public class UserService {
 

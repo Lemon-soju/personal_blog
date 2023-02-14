@@ -22,11 +22,6 @@ public class UserController {
 
     private final UserService userService;
 
-    @GetMapping("test")
-    public String test2(Long num) {
-        return "hello";
-    }
-
     @PostMapping("signup")
     public UserSignUpResponseDto userSignUp(@RequestBody @Valid UserSignUpRequestDto userSignUpRequestDto) {
         log.info("회원가입 시도");
