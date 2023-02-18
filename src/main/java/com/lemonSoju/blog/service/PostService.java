@@ -3,15 +3,16 @@ package com.lemonSoju.blog.service;
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.domain.User;
 import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
-import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
+import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
-import com.lemonSoju.blog.dto.response.UserSignUpResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
-import com.lemonSoju.blog.repository.UserDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -38,5 +39,21 @@ public class PostService {
         log.info("글쓰기 서비스 종료");
 
         return createPostResponseDto;
+    }
+
+    public List<AllPostsResponseDto> getPostService() {
+        List<Post> findPosts = postDataRepository.findAll();
+        List<AllPostsResponseDto> postList = new ArrayList<>();
+        for (Post e : findPosts) {
+            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto
+                    .builder()
+                    .postId(e.getId())
+                    .title(e.getTitle())
+                    .content(e.getContent())
+                    .writer(e.getWriter().getUid())
+                    .build();
+            postList.add(allPostsResponseDto);
+        }
+        return postList;
     }
 }
