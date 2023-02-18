@@ -1,6 +1,7 @@
 package com.lemonSoju.blog.service;
 
 import com.lemonSoju.blog.domain.User;
+import com.lemonSoju.blog.exception.JwtTokenNull;
 import com.lemonSoju.blog.exception.NonExistUser;
 import com.lemonSoju.blog.exception.Unauthorized;
 import com.lemonSoju.blog.repository.UserDataRepository;
@@ -11,6 +12,7 @@ import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,7 +31,7 @@ public class JwtService {
     public boolean authenticateToken(HttpServletRequest request) {
         String accessToken = request.getHeader("accessToken");
         if (accessToken == null || accessToken.equals("")) {
-            throw new Unauthorized();
+            throw new JwtTokenNull();
         }
 
         byte[] decodeKey = Base64.decodeBase64(KEY);
@@ -48,6 +50,7 @@ public class JwtService {
             // 사용자 존재여부 검사
             User findUser = userDataRepository.findByUid(claims.getBody().getSubject()).get();
             if(!findUser.equals(null)) {
+                log.info("일치하는 사용자 존재");
                 return true;
             }
         } catch (JwtException e) {
@@ -61,8 +64,8 @@ public class JwtService {
     /**
      * 현재 로그인한 사용자 정보가 필요할 때
      */
-    public User findUserByToken(HttpServletRequest request) {
-        String accessToken = request.getHeader("accessToken");
+    public User findUserByToken(HttpHeaders request) {
+        String accessToken = request.getFirst("accessToken");
         if (accessToken == null || accessToken.equals("")) {
             throw new Unauthorized();
         }
