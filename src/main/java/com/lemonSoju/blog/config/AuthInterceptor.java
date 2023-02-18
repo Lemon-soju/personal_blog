@@ -27,6 +27,9 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         log.info("preHandle 동작");
+        if(request.getMethod().equals("OPTIONS")) { // preflight 인 경우 허용
+            return true;
+        }
         if (jwtService.authenticateToken(request)) return true;
         throw new Unauthorized();
     }
