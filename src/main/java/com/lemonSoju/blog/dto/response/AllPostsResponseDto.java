@@ -4,6 +4,8 @@ import com.lemonSoju.blog.domain.User;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class AllPostsResponseDto {
     private Long postId;
@@ -11,11 +13,14 @@ public class AllPostsResponseDto {
     private String content;
     private String writer;
 
+    private LocalDateTime createDate;
+
     @Builder
-    public AllPostsResponseDto(Long postId, String title, String content, String writer) {
+    public AllPostsResponseDto(Long postId, String title, String content, String writer, LocalDateTime createDate) {
         this.postId = postId;
         this.title = title;
         this.content = content;
         this.writer = writer;
+        this.createDate = createDate;
     }
 }

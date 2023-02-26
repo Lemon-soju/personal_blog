@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 
 @Component
 @RequiredArgsConstructor
@@ -50,6 +51,7 @@ public class TestDataInit {
                 .title("title1")
                 .content("content1")
                 .writer(user)
+                .createDate(LocalDateTime.now())
                 .build();
         return postDataRepository.save(post);
     }

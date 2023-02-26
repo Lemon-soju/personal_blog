@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class PostService {
                 .title(createPostRequestDto.getTitle())
                 .content(createPostRequestDto.getContent())
                 .writer(writer)
+                .createDate(LocalDateTime.now())
                 .build();
         Post savedPost = postDataRepository.save(post);
 
@@ -51,6 +53,7 @@ public class PostService {
                     .title(e.getTitle())
                     .content(e.getContent())
                     .writer(e.getWriter().getUid())
+                    .createDate(e.getCreateDate())
                     .build();
             postList.add(allPostsResponseDto);
         }
