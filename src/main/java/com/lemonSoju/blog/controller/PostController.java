@@ -30,7 +30,7 @@ public class PostController {
         return postService.createPost(createPostRequestDto, writer);
     }
 
-    @GetMapping("/user/post")
+    @GetMapping("/post")
     public List<AllPostsResponseDto> getPost() {
         return postService.getPostService();
     }
