@@ -3,6 +3,7 @@ package com.lemonSoju.blog.service;
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.domain.User;
 import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
+import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
@@ -58,5 +59,12 @@ public class PostService {
             postList.add(allPostsResponseDto);
         }
         return postList;
+    }
+
+    @Transactional
+    public void deletePosts(DeletePostRequestDto deletePostRequestDto) {
+        for (Long e: deletePostRequestDto.getCheckedInputs()) {
+            postDataRepository.deleteById(e);
+        }
     }
 }

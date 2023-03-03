@@ -2,6 +2,7 @@ package com.lemonSoju.blog.controller;
 
 import com.lemonSoju.blog.domain.User;
 import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
+import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
 import com.lemonSoju.blog.service.JwtService;
@@ -32,6 +33,12 @@ public class PostController {
 
     @GetMapping("/post")
     public List<AllPostsResponseDto> getPost() {
+        log.info("getPost 실행");
         return postService.getPostService();
+    }
+
+    @PostMapping("/user/post/delete")
+    public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto){
+        postService.deletePosts(deletePostRequestDto);
     }
 }
