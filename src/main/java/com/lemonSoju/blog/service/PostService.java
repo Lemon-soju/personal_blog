@@ -6,6 +6,7 @@ import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
+import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -63,8 +64,18 @@ public class PostService {
 
     @Transactional
     public void deletePosts(DeletePostRequestDto deletePostRequestDto) {
-        for (Long e: deletePostRequestDto.getCheckedInputs()) {
+        for (Long e : deletePostRequestDto.getCheckedInputs()) {
             postDataRepository.deleteById(e);
         }
+    }
+
+    public ReadPostResponseDto readPost(Long id) {
+        Post findPost = postDataRepository.findById(id).get();
+        ReadPostResponseDto readPostResponseDto= ReadPostResponseDto.builder()
+                .postId(findPost.getId())
+                .title(findPost.getTitle())
+                .content(findPost.getContent())
+                .build();
+        return readPostResponseDto;
     }
 }

@@ -33,7 +33,6 @@ public class JwtService {
         if (accessToken == null || accessToken.equals("")) {
             throw new JwtTokenNull();
         }
-
         byte[] decodeKey = Base64.decodeBase64(KEY);
         try {
             Jws<Claims> claims = Jwts.parserBuilder()
