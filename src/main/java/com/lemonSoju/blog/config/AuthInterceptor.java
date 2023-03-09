@@ -30,7 +30,9 @@ public class AuthInterceptor implements HandlerInterceptor {
         if(request.getMethod().equals("OPTIONS")) { // preflight 인 경우 허용
             return true;
         }
-        if (jwtService.authenticateToken(request)) return true;
+        if (jwtService.authenticateToken(request)) {
+            return true;
+        }
         throw new Unauthorized();
     }
 

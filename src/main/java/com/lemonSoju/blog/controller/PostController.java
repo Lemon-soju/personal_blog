@@ -5,6 +5,7 @@ import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
+import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
 import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.PostService;
 import lombok.RequiredArgsConstructor;
@@ -38,7 +39,13 @@ public class PostController {
     }
 
     @PostMapping("/user/post/delete")
-    public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto){
+    public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto) {
         postService.deletePosts(deletePostRequestDto);
+    }
+
+    @GetMapping("/post/detail")
+    public ReadPostResponseDto readPost(@RequestParam Long id) {
+        log.info("글 detail 읽기 시도");
+        return postService.readPost(id);
     }
 }
