@@ -4,6 +4,7 @@ import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.domain.User;
 import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
+import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
 import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
@@ -77,5 +78,12 @@ public class PostService {
                 .content(findPost.getContent())
                 .build();
         return readPostResponseDto;
+    }
+
+    @Transactional
+    public void editPost(PostEditRequestDto posteditRequestDto) {
+        Post findPost = postDataRepository.findById(posteditRequestDto.getId()).get();
+        findPost.setTitle(posteditRequestDto.getTitle());
+        findPost.setContent(posteditRequestDto.getContent());
     }
 }

@@ -3,6 +3,7 @@ package com.lemonSoju.blog.controller;
 import com.lemonSoju.blog.domain.User;
 import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
+import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
 import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
@@ -47,5 +48,10 @@ public class PostController {
     public ReadPostResponseDto readPost(@RequestParam Long id) {
         log.info("글 detail 읽기 시도");
         return postService.readPost(id);
+    }
+
+    @PostMapping("/user/post/edit/{postId}")
+    public void editPost(@PathVariable Long postId, @RequestBody PostEditRequestDto postEditRequestDto) {
+        postService.editPost(postEditRequestDto);
     }
 }
