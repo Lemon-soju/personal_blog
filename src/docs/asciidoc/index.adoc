@@ -14,3 +14,33 @@ include::{snippets}/user-signup/request-fields.adoc[]
 include::{snippets}/user-signup/http-response.adoc[]
 include::{snippets}/user-signup/response-fields.adoc[]
 
+
+== 로그인
+=== 요청
+include::{snippets}/user-login/http-request.adoc[]
+include::{snippets}/user-login/request-fields.adoc[]
+=== 응답
+include::{snippets}/user-login/http-response.adoc[]
+include::{snippets}/user-login/response-fields.adoc[]
+
+== 글쓰기
+=== 요청
+include::{snippets}/post-write/http-request.adoc[]
+include::{snippets}/post-write/request-fields.adoc[]
+=== 응답
+include::{snippets}/post-write/http-response.adoc[]
+include::{snippets}/post-write/response-fields.adoc[]
+
+== 글 전체 불러오기
+=== 요청
+include::{snippets}/get-posts/http-request.adoc[]
+=== 응답
+include::{snippets}/get-posts/http-response.adoc[]
+include::{snippets}/get-posts/response-fields.adoc[]
+
+== 글 삭제
+=== 요청
+include::{snippets}/post-delete/http-request.adoc[]
+include::{snippets}/post-delete/request-fields.adoc[]
+=== 응답
+include::{snippets}/post-delete/http-response.adoc[]

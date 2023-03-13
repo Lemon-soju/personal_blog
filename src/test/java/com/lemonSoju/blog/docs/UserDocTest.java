@@ -1,6 +1,7 @@
 package com.lemonSoju.blog.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lemonSoju.blog.dto.request.UserLoginRequestDto;
 import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
 import com.lemonSoju.blog.service.UserService;
 import org.junit.jupiter.api.DisplayName;
@@ -62,6 +63,37 @@ public class UserDocTest {
                         ),
                         responseFields(
                                 fieldWithPath("uid").description("사용자 ID")
+                        )
+                ));
+    }
+
+    @Test
+    @DisplayName("로그인")
+    void login() throws Exception {
+
+        // given
+        UserLoginRequestDto request = UserLoginRequestDto.builder()
+                .uid("user01")
+                .pwd("1q2w3e4r1!")
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        // expected
+        mockMvc.perform(post("/login")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("user-login",
+                        requestFields(
+                                fieldWithPath("uid").description("아이디"),
+                                fieldWithPath("pwd").description("패스워드")
+                        ),
+                        responseFields(
+                                fieldWithPath("uid").description("사용자 ID"),
+                                fieldWithPath("accessToken").description("JWT 토큰")
                         )
                 ));
     }

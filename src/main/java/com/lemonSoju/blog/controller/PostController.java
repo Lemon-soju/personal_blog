@@ -1,11 +1,11 @@
 package com.lemonSoju.blog.controller;
 
 import com.lemonSoju.blog.domain.User;
-import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
+import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
-import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
+import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
 import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.PostService;
@@ -25,12 +25,12 @@ public class PostController {
     private final PostService postService;
     private final JwtService jwtService;
 
-    @PostMapping("/user/post")
-    public CreatePostResponseDto createPost(@RequestBody @Valid CreatePostRequestDto createPostRequestDto
+    @PostMapping("/post/write")
+    public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
             , @RequestHeader HttpHeaders request) {
         log.info("글쓰기 시도");
         User writer = jwtService.findUserByToken(request);
-        return postService.createPost(createPostRequestDto, writer);
+        return postService.createPost(postWriteRequestDto, writer);
     }
 
     @GetMapping("/post")

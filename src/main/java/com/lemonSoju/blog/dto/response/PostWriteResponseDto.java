@@ -4,12 +4,12 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class CreatePostResponseDto {
+public class PostWriteResponseDto {
 
     private Long postId;
 
     @Builder
-    public CreatePostResponseDto(Long postId) {
+    public PostWriteResponseDto(Long postId) {
         this.postId = postId;
     }
 }
