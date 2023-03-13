@@ -70,7 +70,7 @@ public class TestDataInit {
 
     private User createUser() {
         User user = User.builder()
-                .uid("user02")
+                .uid("user01")
                 .pwd("1q2w3e4r1!")
                 .name("James")
                 .authority("ROLE_USER")

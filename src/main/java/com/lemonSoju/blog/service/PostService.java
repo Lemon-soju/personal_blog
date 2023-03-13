@@ -2,11 +2,11 @@ package com.lemonSoju.blog.service;
 
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.domain.User;
-import com.lemonSoju.blog.dto.request.CreatePostRequestDto;
+import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
-import com.lemonSoju.blog.dto.response.CreatePostResponseDto;
+import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
@@ -26,24 +26,24 @@ public class PostService {
     private final PostDataRepository postDataRepository;
 
     @Transactional
-    public CreatePostResponseDto createPost(CreatePostRequestDto createPostRequestDto, User writer) {
+    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, User writer) {
         log.info("글쓰기 서비스 시작");
         Post post = Post.builder()
-                .title(createPostRequestDto.getTitle())
-                .content(createPostRequestDto.getContent())
+                .title(postWriteRequestDto.getTitle())
+                .content(postWriteRequestDto.getContent())
                 .writer(writer)
                 .createDate(LocalDateTime.now())
                 .build();
         Post savedPost = postDataRepository.save(post);
 
-        CreatePostResponseDto createPostResponseDto = CreatePostResponseDto
+        PostWriteResponseDto postWriteResponseDto = PostWriteResponseDto
                 .builder()
                 .postId(savedPost.getId())
                 .build();
 
         log.info("글쓰기 서비스 종료");
 
-        return createPostResponseDto;
+        return postWriteResponseDto;
     }
 
     public List<AllPostsResponseDto> getPostService() {
