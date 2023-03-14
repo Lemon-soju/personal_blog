@@ -21,6 +21,7 @@ public class Post {
     @Column(name = "post_id")
     private Long id;
     private String title;
+    @Lob
     private String content;
 
     private LocalDateTime createDate;
