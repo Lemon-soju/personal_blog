@@ -75,7 +75,6 @@ public class JwtService {
                     .setSigningKey(decodeKey)
                     .build()
                     .parseClaimsJws(accessToken);
-            log.info("claims 생성");
 
             User findUser = userDataRepository.findByUid(claims.getBody().getSubject()).get();
             return findUser;
