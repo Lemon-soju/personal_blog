@@ -34,10 +34,14 @@ public class PostController {
     }
 
     @GetMapping("/post")
-    public List<AllPostsResponseDto> getPost() {
+    public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search) {
         log.info("getPost 실행");
-        return postService.getPostService();
-    }
+        if (search == null) {
+            return postService.getPostService();
+        } else {
+            log.info("getPostBySearch 실행");
+            return postService.getPostBySearch(search);
+        }}
 
     @PostMapping("/user/post/delete")
     public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto) {
