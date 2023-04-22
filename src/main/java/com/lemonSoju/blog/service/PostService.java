@@ -63,6 +63,23 @@ public class PostService {
         return postList;
     }
 
+    public List<AllPostsResponseDto> getPostBySearch(String search) {
+        List<Post> findPosts = postDataRepository.findAllByTitleContaining(search);
+        List<AllPostsResponseDto> postList = new ArrayList<>();
+        for (Post e : findPosts) {
+            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto
+                    .builder()
+                    .postId(e.getId())
+                    .title(e.getTitle())
+                    .content(e.getContent())
+                    .writer(e.getWriter().getUid())
+                    .createDate(e.getCreateDate())
+                    .build();
+            postList.add(allPostsResponseDto);
+        }
+        return postList;
+    }
+
     @Transactional
     public void deletePosts(DeletePostRequestDto deletePostRequestDto) {
         for (Long e : deletePostRequestDto.getCheckedInputs()) {
