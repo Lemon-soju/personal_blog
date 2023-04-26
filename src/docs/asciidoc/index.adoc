@@ -8,20 +8,20 @@
 
 == 회원가입
 === 요청
-include::{snippets}/user-signup/http-request.adoc[]
-include::{snippets}/user-signup/request-fields.adoc[]
+include::{snippets}/member-signup/http-request.adoc[]
+include::{snippets}/member-signup/request-fields.adoc[]
 === 응답
-include::{snippets}/user-signup/http-response.adoc[]
-include::{snippets}/user-signup/response-fields.adoc[]
+include::{snippets}/member-signup/http-response.adoc[]
+include::{snippets}/member-signup/response-fields.adoc[]
 
 
 == 로그인
 === 요청
-include::{snippets}/user-login/http-request.adoc[]
-include::{snippets}/user-login/request-fields.adoc[]
+include::{snippets}/member-login/http-request.adoc[]
+include::{snippets}/member-login/request-fields.adoc[]
 === 응답
-include::{snippets}/user-login/http-response.adoc[]
-include::{snippets}/user-login/response-fields.adoc[]
+include::{snippets}/member-login/http-response.adoc[]
+include::{snippets}/member-login/response-fields.adoc[]
 
 == 글쓰기
 === 요청

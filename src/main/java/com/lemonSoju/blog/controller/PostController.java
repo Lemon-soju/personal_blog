@@ -1,6 +1,6 @@
 package com.lemonSoju.blog.controller;
 
-import com.lemonSoju.blog.domain.User;
+import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
@@ -29,7 +29,7 @@ public class PostController {
     public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
             , @RequestHeader HttpHeaders request) {
         log.info("글쓰기 시도");
-        User writer = jwtService.findUserByToken(request);
+        Member writer = jwtService.findUserByToken(request);
         return postService.createPost(postWriteRequestDto, writer);
     }
 

@@ -18,7 +18,7 @@
 - [x] jwt 인증 Resolver가 아닌 Interceptor로 구현하기
 - [x] 커스텀 예외처리하기 ex) jwt
 ### domain
-- [x] user - 회원 정보
+- [x] member - 회원 정보
 - [x] post - 게시글 정보
 ### service
 - [x] 로그인 기능

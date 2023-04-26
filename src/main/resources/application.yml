@@ -1,18 +1,23 @@
 spring:
   datasource:
 #    url: jdbc:h2:tcp://localhost/~/test
-    url: jdbc:h2:mem:test
-    username: sa
-    password:
-    driver-class-name:  org.h2.Driver
+#    url: jdbc:h2:mem:test
+    url: jdbc:postgresql://3.35.179.185:5432/postgres
+    username: lemonsoju
+    password: 1q2w3e4r1!
+    show-sql: true
+#    driver-class-name:  org.h2.Driver
 
   jpa:
     hibernate:
       ddl-auto: create
     properties:
       hibernate:
-  # show_sql: true
-        format_sql:true
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        use_sql_comments: true
+    show_sql: true
+
 
   logging.level:
     org.hibernate.SQL: debug

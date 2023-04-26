@@ -1,17 +1,9 @@
 package com.lemonSoju.blog.config;
 
-import com.lemonSoju.blog.domain.User;
-import com.lemonSoju.blog.exception.NonExistUser;
 import com.lemonSoju.blog.exception.Unauthorized;
-import com.lemonSoju.blog.repository.UserDataRepository;
 import com.lemonSoju.blog.service.JwtService;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 

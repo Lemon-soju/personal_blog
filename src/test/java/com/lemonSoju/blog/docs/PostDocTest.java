@@ -1,11 +1,10 @@
 package com.lemonSoju.blog.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lemonSoju.blog.domain.User;
+import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
-import com.lemonSoju.blog.dto.request.UserLoginRequestDto;
-import com.lemonSoju.blog.repository.UserDataRepository;
+import com.lemonSoju.blog.repository.MemerDataRepository;
 import com.lemonSoju.blog.service.PostService;
 import com.lemonSoju.blog.service.UserService;
 import io.jsonwebtoken.Jwts;
@@ -23,7 +22,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.security.Key;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
@@ -50,7 +48,7 @@ public class PostDocTest {
     @Autowired
     private UserService userService;
     @Autowired
-    private UserDataRepository userDataRepository;
+    private MemerDataRepository memerDataRepository;
     @Autowired
     private ObjectMapper objectMapper;
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
@@ -139,7 +137,7 @@ public class PostDocTest {
     }
 
     private String createToken() {
-        User findUser = userDataRepository.findByUid("user01").get();
+        Member findMember = memerDataRepository.findByUid("user01").get();
 
         Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode((KEY)));
 
@@ -148,7 +146,7 @@ public class PostDocTest {
         Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
 
         String jws = Jwts.builder()
-                .setSubject(findUser.getUid())
+                .setSubject(findMember.getUid())
                 .setIssuedAt(now) // 발급시간(iat)
                 .setExpiration(expiration) // 만료시간(exp)
                 .signWith(key) // 사용자 uid

@@ -1,6 +1,5 @@
 package com.lemonSoju.blog.dto.response;
 
-import com.lemonSoju.blog.domain.User;
 import lombok.Builder;
 import lombok.Data;
 

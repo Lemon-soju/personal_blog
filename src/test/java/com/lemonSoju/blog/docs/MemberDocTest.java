@@ -1,8 +1,8 @@
 package com.lemonSoju.blog.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lemonSoju.blog.dto.request.UserLoginRequestDto;
-import com.lemonSoju.blog.dto.request.UserSignUpRequestDto;
+import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
+import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
 import com.lemonSoju.blog.service.UserService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureRestDocs(uriScheme = "http", uriHost = "http://3.35.179.185", uriPort = 80)
 @ExtendWith(RestDocumentationExtension.class)
 @Transactional
-public class UserDocTest {
+public class MemberDocTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
@@ -40,7 +40,7 @@ public class UserDocTest {
     void signup() throws Exception {
 
         // given
-        UserSignUpRequestDto request = UserSignUpRequestDto.builder()
+        MemberSignUpRequestDto request = MemberSignUpRequestDto.builder()
                 .uid("아이디입니다.")
                 .pwd("패스워드입니다.")
                 .name("이름입니다.")
@@ -72,7 +72,7 @@ public class UserDocTest {
     void login() throws Exception {
 
         // given
-        UserLoginRequestDto request = UserLoginRequestDto.builder()
+        MemberLoginRequestDto request = MemberLoginRequestDto.builder()
                 .uid("user01")
                 .pwd("1q2w3e4r1!")
                 .build();

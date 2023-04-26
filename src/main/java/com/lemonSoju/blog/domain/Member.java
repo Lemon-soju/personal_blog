@@ -16,7 +16,7 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class User {
+public class Member {
     @Id
     @GeneratedValue
     @Column(name = "user_id")
@@ -34,7 +34,7 @@ public class User {
     private Post heart;
 
     @Builder
-    public User(String uid, String pwd, String name, String authority){
+    public Member(String uid, String pwd, String name, String authority){
         this.uid = uid;
         this.pwd = pwd;
         this.name = name;
