@@ -3,7 +3,7 @@ package com.lemonSoju.blog.docs;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
-import com.lemonSoju.blog.service.UserService;
+import com.lemonSoju.blog.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,7 +31,7 @@ public class MemberDocTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -55,7 +55,7 @@ public class MemberDocTest {
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("user-signup",
+                .andDo(document("member-signup",
                         requestFields(
                                 fieldWithPath("uid").description("아이디"),
                                 fieldWithPath("pwd").description("패스워드"),
@@ -86,7 +86,7 @@ public class MemberDocTest {
                         .content(json))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("user-login",
+                .andDo(document("member-login",
                         requestFields(
                                 fieldWithPath("uid").description("아이디"),
                                 fieldWithPath("pwd").description("패스워드")

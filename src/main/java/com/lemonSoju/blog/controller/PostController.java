@@ -29,7 +29,7 @@ public class PostController {
     public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
             , @RequestHeader HttpHeaders request) {
         log.info("글쓰기 시도");
-        Member writer = jwtService.findUserByToken(request);
+        Member writer = jwtService.findMemberByToken(request);
         return postService.createPost(postWriteRequestDto, writer);
     }
 
@@ -43,7 +43,7 @@ public class PostController {
             return postService.getPostBySearch(search);
         }}
 
-    @PostMapping("/user/post/delete")
+    @PostMapping("/member/post/delete")
     public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto) {
         postService.deletePosts(deletePostRequestDto);
     }
@@ -54,7 +54,7 @@ public class PostController {
         return postService.readPost(id);
     }
 
-    @PostMapping("/user/post/edit/{postId}")
+    @PostMapping("/member/post/edit/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostEditRequestDto postEditRequestDto) {
         postService.editPost(postEditRequestDto);
     }

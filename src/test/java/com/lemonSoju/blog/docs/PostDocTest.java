@@ -6,7 +6,7 @@ import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.repository.MemerDataRepository;
 import com.lemonSoju.blog.service.PostService;
-import com.lemonSoju.blog.service.UserService;
+import com.lemonSoju.blog.service.MemberService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.junit.jupiter.api.DisplayName;
@@ -46,7 +46,7 @@ public class PostDocTest {
     @Autowired
     private PostService postService;
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
     @Autowired
     private MemerDataRepository memerDataRepository;
     @Autowired
@@ -122,7 +122,7 @@ public class PostDocTest {
         String json = objectMapper.writeValueAsString(request);
 
         // expected
-        mockMvc.perform(post("/user/post/delete")
+        mockMvc.perform(post("/member/post/delete")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .header("accessToken", jwt)

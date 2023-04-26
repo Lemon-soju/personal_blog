@@ -5,7 +5,7 @@ import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
 import com.lemonSoju.blog.dto.response.MemberLoginResponseDto;
 import com.lemonSoju.blog.dto.response.MemberSignUpResponseDto;
-import com.lemonSoju.blog.service.UserService;
+import com.lemonSoju.blog.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,17 +19,17 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class MemberController {
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     @PostMapping("signup")
-    public MemberSignUpResponseDto userSignUp(@RequestBody @Valid MemberSignUpRequestDto memberSignUpRequestDto) {
+    public MemberSignUpResponseDto memberSignUp(@RequestBody @Valid MemberSignUpRequestDto memberSignUpRequestDto) {
         log.info("회원가입 시도");
-        return userService.join(memberSignUpRequestDto);
+        return memberService.join(memberSignUpRequestDto);
     }
 
     @PostMapping("login")
-    public MemberLoginResponseDto userLogin(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
+    public MemberLoginResponseDto memberLogin(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
         log.info("로그인 시도");
-        return userService.login(memberLoginRequestDto);
+        return memberService.login(memberLoginRequestDto);
     }
 }
