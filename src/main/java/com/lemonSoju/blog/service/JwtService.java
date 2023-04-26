@@ -2,7 +2,7 @@ package com.lemonSoju.blog.service;
 
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.exception.JwtTokenNull;
-import com.lemonSoju.blog.exception.NonExistUser;
+import com.lemonSoju.blog.exception.NonExistMember;
 import com.lemonSoju.blog.exception.Unauthorized;
 import com.lemonSoju.blog.repository.MemerDataRepository;
 import io.jsonwebtoken.Claims;
@@ -55,7 +55,7 @@ public class JwtService {
         } catch (JwtException e) {
             throw new Unauthorized();
         } catch (NoSuchElementException e){
-            throw new NonExistUser();
+            throw new NonExistMember();
         }
         return false;
     }
@@ -63,7 +63,7 @@ public class JwtService {
     /**
      * 현재 로그인한 사용자 정보가 필요할 때
      */
-    public Member findUserByToken(HttpHeaders request) {
+    public Member findMemberByToken(HttpHeaders request) {
         String accessToken = request.getFirst("accessToken");
         if (accessToken == null || accessToken.equals("")) {
             throw new Unauthorized();
@@ -82,7 +82,7 @@ public class JwtService {
         } catch (JwtException e) {
             throw new Unauthorized();
         } catch (NoSuchElementException e){
-            throw new NonExistUser();
+            throw new NonExistMember();
         }
     }
 }

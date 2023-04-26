@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 @Slf4j
-public class UserService {
+public class MemberService {
 
     private final MemerDataRepository memerDataRepository;
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
@@ -37,8 +37,8 @@ public class UserService {
      */
     @Transactional
     public MemberSignUpResponseDto join(MemberSignUpRequestDto memberSignUpRequestDto) {
-        validateDuplicateUser(memberSignUpRequestDto);
-        Member savedMember = memerDataRepository.save(createUser(memberSignUpRequestDto));
+        validateDuplicateMember(memberSignUpRequestDto);
+        Member savedMember = memerDataRepository.save(createMember(memberSignUpRequestDto));
         MemberSignUpResponseDto memberSignUpResponseDto = MemberSignUpResponseDto.builder()
                 .uid(savedMember.getUid())
                 .build();
@@ -72,17 +72,17 @@ public class UserService {
                 .build();
         return memberLoginResponseDto;
     }
-    private void validateDuplicateUser(MemberSignUpRequestDto memberSignUpRequestDto) {
-        Optional<Member> findUsers = memerDataRepository.findByUid(memberSignUpRequestDto.getUid());
-        if (!findUsers.isEmpty()) {
-            throw new IllegalStateException("Already Existing User");
+    private void validateDuplicateMember(MemberSignUpRequestDto memberSignUpRequestDto) {
+        Optional<Member> findMembers = memerDataRepository.findByUid(memberSignUpRequestDto.getUid());
+        if (!findMembers.isEmpty()) {
+            throw new IllegalStateException("Already Existing Member");
         }
     }
 
     /**
-     * User 객체 생성
+     * Member 객체 생성
      */
-    public Member createUser(MemberSignUpRequestDto memberSignUpRequestDto) {
+    public Member createMember(MemberSignUpRequestDto memberSignUpRequestDto) {
         Member member = Member.builder()
                 .uid(memberSignUpRequestDto.getUid())
                 .pwd(memberSignUpRequestDto.getPwd())
