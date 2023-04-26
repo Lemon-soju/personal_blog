@@ -6,7 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 
 @Data
-public class UserLoginResponseDto {
+public class MemberLoginResponseDto {
 
     @NotEmpty(message = "회원 id는 필수입니다.")
     private String uid;
@@ -14,7 +14,7 @@ public class UserLoginResponseDto {
     private String accessToken;
 
     @Builder
-    public UserLoginResponseDto(String uid, String accessToken) {
+    public MemberLoginResponseDto(String uid, String accessToken) {
         this.uid = uid;
         this.accessToken = accessToken;
     }

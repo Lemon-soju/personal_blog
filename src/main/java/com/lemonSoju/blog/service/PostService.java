@@ -1,7 +1,7 @@
 package com.lemonSoju.blog.service;
 
 import com.lemonSoju.blog.domain.Post;
-import com.lemonSoju.blog.domain.User;
+import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
@@ -26,7 +26,7 @@ public class PostService {
     private final PostDataRepository postDataRepository;
 
     @Transactional
-    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, User writer) {
+    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer) {
         log.info("글쓰기 서비스 시작");
         Post post = Post.builder()
                 .title(postWriteRequestDto.getTitle())

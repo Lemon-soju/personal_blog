@@ -5,7 +5,6 @@ import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
@@ -28,13 +27,13 @@ public class Post {
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
-    private User writer;
+    private Member writer;
 
     @OneToMany(mappedBy = "heart")
-    private List<User> hearts = new ArrayList<>();
+    private List<Member> hearts = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, User writer, LocalDateTime createDate){
+    public Post(String title, String content, Member writer, LocalDateTime createDate){
         this.title = title;
         this.content = content;
         this.writer = writer;

@@ -1,10 +1,10 @@
 package com.lemonSoju.blog.service;
 
-import com.lemonSoju.blog.domain.User;
+import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.exception.JwtTokenNull;
 import com.lemonSoju.blog.exception.NonExistUser;
 import com.lemonSoju.blog.exception.Unauthorized;
-import com.lemonSoju.blog.repository.UserDataRepository;
+import com.lemonSoju.blog.repository.MemerDataRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 public class JwtService {
 
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
-    private final UserDataRepository userDataRepository;
+    private final MemerDataRepository memerDataRepository;
 
 
     public boolean authenticateToken(HttpServletRequest request) {
@@ -47,8 +47,8 @@ public class JwtService {
             }
 
             // 사용자 존재여부 검사
-            User findUser = userDataRepository.findByUid(claims.getBody().getSubject()).get();
-            if(!findUser.equals(null)) {
+            Member findMember = memerDataRepository.findByUid(claims.getBody().getSubject()).get();
+            if(!findMember.equals(null)) {
                 log.info("일치하는 사용자 존재");
                 return true;
             }
@@ -63,7 +63,7 @@ public class JwtService {
     /**
      * 현재 로그인한 사용자 정보가 필요할 때
      */
-    public User findUserByToken(HttpHeaders request) {
+    public Member findUserByToken(HttpHeaders request) {
         String accessToken = request.getFirst("accessToken");
         if (accessToken == null || accessToken.equals("")) {
             throw new Unauthorized();
@@ -76,8 +76,8 @@ public class JwtService {
                     .build()
                     .parseClaimsJws(accessToken);
 
-            User findUser = userDataRepository.findByUid(claims.getBody().getSubject()).get();
-            return findUser;
+            Member findMember = memerDataRepository.findByUid(claims.getBody().getSubject()).get();
+            return findMember;
 
         } catch (JwtException e) {
             throw new Unauthorized();
