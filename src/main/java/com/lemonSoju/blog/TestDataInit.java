@@ -1,29 +1,29 @@
 package com.lemonSoju.blog;
 
-import com.lemonSoju.blog.domain.Member;
-import com.lemonSoju.blog.domain.Post;
-import com.lemonSoju.blog.repository.PostDataRepository;
-import com.lemonSoju.blog.repository.MemerDataRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
-
-@Component
-@RequiredArgsConstructor
-public class TestDataInit {
-
-    private final PostDataRepository postDataRepository;
-    private final MemerDataRepository memerDataRepository;
-
-    /**
-     * 테스트용 데이터 추가
-     */
-    @PostConstruct
-    public void init() {
-
-        Member admin = createAdmin();
+//import com.lemonSoju.blog.domain.Member;
+//import com.lemonSoju.blog.domain.Post;
+//import com.lemonSoju.blog.repository.PostDataRepository;
+//import com.lemonSoju.blog.repository.MemerDataRepository;
+//import lombok.RequiredArgsConstructor;
+//import org.springframework.stereotype.Component;
+//
+//import javax.annotation.PostConstruct;
+//import java.time.LocalDateTime;
+//
+//@Component
+//@RequiredArgsConstructor
+//public class TestDataInit {
+//
+//    private final PostDataRepository postDataRepository;
+//    private final MemerDataRepository memerDataRepository;
+//
+//    /**
+//     * 테스트용 데이터 추가
+//     */
+//    @PostConstruct
+//    public void init() {
+//
+//        Member admin = createAdmin();
 //        Member member01 = createUser();
 //        Post post01 = createPost(member01, "개발자라면 꼭 알아야 할 프로그래밍 언어 5가지", "현재 개발 시장에서 인기 있는 프로그래밍 언어를 선정하고, 각 언어의 특징과 장단점을 비교하며, 개발자로서 어떤 언어를 배우면 유용한지에 대해 제안합니다. 예를 들어, Python의 간결한 문법과 다양한 라이브러리를 활용하여 빠르게 개발을 진행할 수 있다는 점이나, Java의 안정성과 대규모 프로젝트에 적합하다는 점 등을 소개합니다.");
 //        Post post02 = createPost(member01, "내가 경험한 세계 여행 TOP 5", "여행 중 방문한 나라와 그 나라에서 경험한 색다른 문화와 음식, 관광지 등을 소개하며 추억에 남는 순위권 5개의 여행을 공유합니다. 예를 들어, 일본에서 찾은 마음의 평화를 느낄 수 있는 절이나 프랑스에서 맛보았던 진짜 마카롱 등의 이야기를 공유합니다. 이를 통해 독자들은 혹시 여행 계획을 세우고 있다면 도움을 받을 수 있습니다.");
@@ -79,18 +79,18 @@ public class TestDataInit {
 //        Post post28 = createPost(admin, "인공지능 기술의 발전과 적용 분야" , "인공지능 기술은 빠르게 발전하고 있으며, 다양한 분야에서 응용됩니다. 예를 들어, 자율주행차, 음성인식, 언어번역, 게임 등이 있습니다. 인공지능은 기존의 문제를 해결하고 새로운 가능성을 열어주는 기술입니다. 그러나 인공지능을 사용할 때에는 개인정보 보호와 같은 이슈도 고려해야 합니다.");
 //        Post post29 = createPost(admin, "사물인터넷(IoT)의 개념과 적용 분야", "사물인터넷은 사물에 센서와 통신 기능을 부여하여 인터넷과 연결된 기술입니다. 사물인터넷의 적용 분야는 다양합니다. 예를 들어, 홈 자동화, 스마트 시티, 산업 자동화 등이 있습니다. 사물인터넷은 다양한 데이터를 수집하고 분석하여 효율적인 운영과 관리를 가능케 합니다.");
 //        Post post30 = createPost(admin, "가상현실(VR)의 개념과 적용 분야" , "가상현실은 가상 공간에서 인간이 체감하는 경험을 제공하는 기술입니다. 가상현실의 적용 분야는 게임을 비롯한 엔터테인먼트 분야뿐만 아니라 교육, 의료, 건축 등 다양합니다. 가상현실은 현실에서는 어려운 체험을 제공하고, 시각적으로 재미있는 경험을 가능케 합니다.");
-    }
+//    }
 
-    private Member createAdmin() {
-        Member member = Member.builder()
-                .uid("admin")
-                .pwd("1q2w3e4r1!")
-                .name("lemonSoju")
-                .authority("ROLE_ADMIN")
-                .build();
-        memerDataRepository.save(member);
-        return member;
-    }
+//    private Member createAdmin() {
+//        Member member = Member.builder()
+//                .uid("admin")
+//                .pwd("1q2w3e4r1!")
+//                .name("lemonSoju")
+//                .authority("ROLE_ADMIN")
+//                .build();
+//        memerDataRepository.save(member);
+//        return member;
+//    }
 
 //    private Member createUser() {
 //        Member member = Member.builder()
@@ -112,4 +112,4 @@ public class TestDataInit {
 //                .build();
 //        return postDataRepository.save(post);
 //    }
-}
+//}
