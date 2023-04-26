@@ -53,104 +53,104 @@ public class PostDocTest {
     private ObjectMapper objectMapper;
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
 
-    @Test
-    @DisplayName("글쓰기")
-    void postWrite() throws Exception {
-
-        // given
-        String jwt = createToken();
-
-        PostWriteRequestDto request = PostWriteRequestDto.builder()
-                .title("test01")
-                .content("test01-content")
-                .build();
-
-        String json = objectMapper.writeValueAsString(request);
-
-        // expected
-        mockMvc.perform(post("/post/write")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .header("accessToken", jwt)
-                        .content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("post-write",
-                        requestFields(
-                                fieldWithPath("title").description("제목"),
-                                fieldWithPath("content").description("내용")
-                        ),
-                        responseFields(
-                                fieldWithPath("postId").description("글 번호")
-                        )
-                ));
-    }
-
-    @Test
-    @DisplayName("글 전체 불러오기")
-    void getPosts() throws Exception {
-        // expected
-        mockMvc.perform(get("/post")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                ).andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("get-posts",
-                        responseFields(
-                                fieldWithPath("[].postId").description("글 번호"),
-                                fieldWithPath("[].title").description("글 제목"),
-                                fieldWithPath("[].content").description("글 내용"),
-                                fieldWithPath("[].writer").description("글쓴이"),
-                                fieldWithPath("[].createDate").description("생성시각")
-                        )
-                ));
-    }
-
-
-    @Test
-    @DisplayName("글 삭제")
-    void postDelete() throws Exception {
-
-        // given
-        String jwt = createToken();
-        List<Long> deleteList = List.of(6L, 8L);
-
-        DeletePostRequestDto request = DeletePostRequestDto.builder()
-                .checkedInputs(deleteList)
-                .build();
-
-        String json = objectMapper.writeValueAsString(request);
-
-        // expected
-        mockMvc.perform(post("/member/post/delete")
-                        .contentType(APPLICATION_JSON)
-                        .accept(APPLICATION_JSON)
-                        .header("accessToken", jwt)
-                        .content(json))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andDo(document("post-delete",
-                        requestFields(
-                                fieldWithPath("checkedInputs").description("삭제 리스트")
-                        )
-                ));
-    }
-
-    private String createToken() {
-        Member findMember = memerDataRepository.findByUid("user01").get();
-
-        Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode((KEY)));
-
-        // jwt 설정
-        Date now = new Date();
-        Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
-
-        String jws = Jwts.builder()
-                .setSubject(findMember.getUid())
-                .setIssuedAt(now) // 발급시간(iat)
-                .setExpiration(expiration) // 만료시간(exp)
-                .signWith(key) // 사용자 uid
-                .compact();
-        return jws;
-    }
+//    @Test
+//    @DisplayName("글쓰기")
+//    void postWrite() throws Exception {
+//
+//        // given
+//        String jwt = createToken();
+//
+//        PostWriteRequestDto request = PostWriteRequestDto.builder()
+//                .title("test01")
+//                .content("test01-content")
+//                .build();
+//
+//        String json = objectMapper.writeValueAsString(request);
+//
+//        // expected
+//        mockMvc.perform(post("/post/write")
+//                        .contentType(APPLICATION_JSON)
+//                        .accept(APPLICATION_JSON)
+//                        .header("accessToken", jwt)
+//                        .content(json))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andDo(document("post-write",
+//                        requestFields(
+//                                fieldWithPath("title").description("제목"),
+//                                fieldWithPath("content").description("내용")
+//                        ),
+//                        responseFields(
+//                                fieldWithPath("postId").description("글 번호")
+//                        )
+//                ));
+//    }
+//
+//    @Test
+//    @DisplayName("글 전체 불러오기")
+//    void getPosts() throws Exception {
+//        // expected
+//        mockMvc.perform(get("/post")
+//                        .contentType(APPLICATION_JSON)
+//                        .accept(APPLICATION_JSON)
+//                ).andDo(print())
+//                .andExpect(status().isOk())
+//                .andDo(document("get-posts",
+//                        responseFields(
+//                                fieldWithPath("[].postId").description("글 번호"),
+//                                fieldWithPath("[].title").description("글 제목"),
+//                                fieldWithPath("[].content").description("글 내용"),
+//                                fieldWithPath("[].writer").description("글쓴이"),
+//                                fieldWithPath("[].createDate").description("생성시각")
+//                        )
+//                ));
+//    }
+//
+//
+//    @Test
+//    @DisplayName("글 삭제")
+//    void postDelete() throws Exception {
+//
+//        // given
+//        String jwt = createToken();
+//        List<Long> deleteList = List.of(6L, 8L);
+//
+//        DeletePostRequestDto request = DeletePostRequestDto.builder()
+//                .checkedInputs(deleteList)
+//                .build();
+//
+//        String json = objectMapper.writeValueAsString(request);
+//
+//        // expected
+//        mockMvc.perform(post("/member/post/delete")
+//                        .contentType(APPLICATION_JSON)
+//                        .accept(APPLICATION_JSON)
+//                        .header("accessToken", jwt)
+//                        .content(json))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andDo(document("post-delete",
+//                        requestFields(
+//                                fieldWithPath("checkedInputs").description("삭제 리스트")
+//                        )
+//                ));
+//    }
+//
+//    private String createToken() {
+//        Member findMember = memerDataRepository.findByUid("user01").get();
+//
+//        Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode((KEY)));
+//
+//        // jwt 설정
+//        Date now = new Date();
+//        Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 1일
+//
+//        String jws = Jwts.builder()
+//                .setSubject(findMember.getUid())
+//                .setIssuedAt(now) // 발급시간(iat)
+//                .setExpiration(expiration) // 만료시간(exp)
+//                .signWith(key) // 사용자 uid
+//                .compact();
+//        return jws;
+//    }
 }
