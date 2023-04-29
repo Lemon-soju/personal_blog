@@ -54,7 +54,7 @@ public class PostService {
                     .builder()
                     .postId(e.getId())
                     .title(e.getTitle())
-                    .content(e.getContent())
+                    .content(e.getContent().substring(0, Math.min(e.getContent().length(), 30)))
                     .writer(e.getWriter().getUid())
                     .createDate(e.getCreateDate())
                     .build();
@@ -71,7 +71,7 @@ public class PostService {
                     .builder()
                     .postId(e.getId())
                     .title(e.getTitle())
-                    .content(e.getContent())
+                    .content(e.getContent().substring(0, Math.min(e.getContent().length(), 30)))
                     .writer(e.getWriter().getUid())
                     .createDate(e.getCreateDate())
                     .build();
