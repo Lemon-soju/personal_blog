@@ -89,10 +89,13 @@ public class PostService {
 
     public ReadPostResponseDto readPost(Long id) {
         Post findPost = postDataRepository.findById(id).get();
+
         ReadPostResponseDto readPostResponseDto= ReadPostResponseDto.builder()
                 .postId(findPost.getId())
                 .title(findPost.getTitle())
                 .content(findPost.getContent())
+                .author(findPost.getWriter().getUid())
+                .createDate(findPost.getCreateDate())
                 .build();
         return readPostResponseDto;
     }
