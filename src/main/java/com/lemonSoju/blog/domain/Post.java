@@ -25,6 +25,8 @@ public class Post {
 
     private LocalDateTime createDate;
 
+    private LocalDateTime updateDate;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "user_id")
     private Member writer;
@@ -33,10 +35,11 @@ public class Post {
     private List<Member> hearts = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, Member writer, LocalDateTime createDate){
+    public Post(String title, String content, Member writer, LocalDateTime createDate, LocalDateTime updateDate){
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.createDate = createDate;
+        this.updateDate = updateDate;
     }
 }

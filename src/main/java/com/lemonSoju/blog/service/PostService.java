@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -33,6 +35,7 @@ public class PostService {
                 .content(postWriteRequestDto.getContent())
                 .writer(writer)
                 .createDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
         Post savedPost = postDataRepository.save(post);
 
@@ -60,6 +63,7 @@ public class PostService {
                     .build();
             postList.add(allPostsResponseDto);
         }
+        Collections.sort(postList, Comparator.comparing(AllPostsResponseDto::getCreateDate));
         return postList;
     }
 
@@ -105,5 +109,6 @@ public class PostService {
         Post findPost = postDataRepository.findById(posteditRequestDto.getId()).get();
         findPost.setTitle(posteditRequestDto.getTitle());
         findPost.setContent(posteditRequestDto.getContent());
+        findPost.setUpdateDate(LocalDateTime.now());
     }
 }
