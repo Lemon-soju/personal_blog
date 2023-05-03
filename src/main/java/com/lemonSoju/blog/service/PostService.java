@@ -125,5 +125,6 @@ public class PostService {
         findPost.setTitle(posteditRequestDto.getTitle());
         findPost.setContent(posteditRequestDto.getContent());
         findPost.setUpdateDate(LocalDateTime.now());
+        findPost.setImagePreview(extractImage(posteditRequestDto.getContent()));
     }
 }
