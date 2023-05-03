@@ -11,9 +11,13 @@ import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -28,7 +32,7 @@ public class PostService {
     private final PostDataRepository postDataRepository;
 
     @Transactional
-    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer) {
+    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer)  {
         log.info("글쓰기 서비스 시작");
         Post post = Post.builder()
                 .title(postWriteRequestDto.getTitle())
@@ -36,6 +40,7 @@ public class PostService {
                 .writer(writer)
                 .createDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
+                .imagePreview(extractImage(postWriteRequestDto.getContent()))
                 .build();
         Post savedPost = postDataRepository.save(post);
 
@@ -49,6 +54,15 @@ public class PostService {
         return postWriteResponseDto;
     }
 
+    public String extractImage(String content)  {
+        Document doc = Jsoup.parse(content);
+        Element img = doc.select("img").first();
+        if (img != null) {
+            return img.attr("src");
+        }
+        return null;
+    }
+
     public List<AllPostsResponseDto> getPostService() {
         List<Post> findPosts = postDataRepository.findAll();
         List<AllPostsResponseDto> postList = new ArrayList<>();
@@ -60,6 +74,7 @@ public class PostService {
                     .content(e.getContent().substring(0, Math.min(e.getContent().length(), 30)))
                     .writer(e.getWriter().getUid())
                     .createDate(e.getCreateDate())
+                    .imagePreview(e.getImagePreview())
                     .build();
             postList.add(allPostsResponseDto);
         }
