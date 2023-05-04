@@ -93,6 +93,7 @@ public class PostService {
                     .content(e.getContent().substring(0, Math.min(e.getContent().length(), 30)))
                     .writer(e.getWriter().getUid())
                     .createDate(e.getCreateDate())
+                    .imagePreview(e.getImagePreview())
                     .build();
             postList.add(allPostsResponseDto);
         }
