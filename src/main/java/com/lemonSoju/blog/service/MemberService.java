@@ -11,8 +11,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.Key;
 import java.time.Duration;
@@ -29,6 +31,7 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemerDataRepository memerDataRepository;
+    private final JwtService jwtService;
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
 
 
@@ -68,6 +71,28 @@ public class MemberService {
 
         MemberLoginResponseDto memberLoginResponseDto = MemberLoginResponseDto.builder()
                 .uid(findMember.get(0).getUid())
+                .accessToken(jws)
+                .build();
+        return memberLoginResponseDto;
+    }
+
+    public MemberLoginResponseDto refreshToken(HttpHeaders request) {
+        Member findMember = jwtService.findMemberByToken(request);
+        Key key = Keys.hmacShaKeyFor(Base64.getDecoder().decode((KEY)));
+
+        // jwt 설정
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 30분
+
+        String jws = Jwts.builder()
+                .setSubject(findMember.getUid())
+                .setIssuedAt(now) // 발급시간(iat)
+                .setExpiration(expiration) // 만료시간(exp)
+                .signWith(key) // 사용자 uid
+                .compact();
+
+        MemberLoginResponseDto memberLoginResponseDto = MemberLoginResponseDto.builder()
+                .uid(findMember.getUid())
                 .accessToken(jws)
                 .build();
         return memberLoginResponseDto;
