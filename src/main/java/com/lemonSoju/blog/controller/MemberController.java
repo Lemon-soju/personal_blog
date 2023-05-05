@@ -8,9 +8,8 @@ import com.lemonSoju.blog.dto.response.MemberSignUpResponseDto;
 import com.lemonSoju.blog.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -31,5 +30,10 @@ public class MemberController {
     public MemberLoginResponseDto memberLogin(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
         log.info("로그인 시도");
         return memberService.login(memberLoginRequestDto);
+    }
+
+    @GetMapping("refreshToken")
+    public MemberLoginResponseDto refreshToken(@RequestHeader HttpHeaders request) {
+        return memberService.refreshToken(request);
     }
 }
