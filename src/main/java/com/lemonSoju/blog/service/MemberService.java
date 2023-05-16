@@ -5,7 +5,7 @@ import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.response.MemberLoginResponseDto;
 import com.lemonSoju.blog.dto.response.MemberSignUpResponseDto;
-import com.lemonSoju.blog.repository.MemerDataRepository;
+import com.lemonSoju.blog.repository.MemberDataRepository;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 import java.security.Key;
 import java.time.Duration;
@@ -30,7 +29,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MemberService {
 
-    private final MemerDataRepository memerDataRepository;
+    private final MemberDataRepository memberDataRepository;
     private final JwtService jwtService;
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
 
@@ -41,7 +40,7 @@ public class MemberService {
     @Transactional
     public MemberSignUpResponseDto join(MemberSignUpRequestDto memberSignUpRequestDto) {
         validateDuplicateMember(memberSignUpRequestDto);
-        Member savedMember = memerDataRepository.save(createMember(memberSignUpRequestDto));
+        Member savedMember = memberDataRepository.save(createMember(memberSignUpRequestDto));
         MemberSignUpResponseDto memberSignUpResponseDto = MemberSignUpResponseDto.builder()
                 .uid(savedMember.getUid())
                 .build();
@@ -50,7 +49,7 @@ public class MemberService {
 
     public MemberLoginResponseDto login(MemberLoginRequestDto memberLoginRequestDto) {
 
-        List<Member> findMember = memerDataRepository.findByUid(memberLoginRequestDto.getUid())
+        List<Member> findMember = memberDataRepository.findByUid(memberLoginRequestDto.getUid())
                 .stream().filter(m -> m.getPwd().equals(memberLoginRequestDto.getPwd())).collect(Collectors.toList());
         if(findMember.size() != 1) {
             throw new IllegalStateException("존재하지 않는 회원입니다");
@@ -98,7 +97,7 @@ public class MemberService {
         return memberLoginResponseDto;
     }
     private void validateDuplicateMember(MemberSignUpRequestDto memberSignUpRequestDto) {
-        Optional<Member> findMembers = memerDataRepository.findByUid(memberSignUpRequestDto.getUid());
+        Optional<Member> findMembers = memberDataRepository.findByUid(memberSignUpRequestDto.getUid());
         if (!findMembers.isEmpty()) {
             throw new IllegalStateException("Already Existing Member");
         }

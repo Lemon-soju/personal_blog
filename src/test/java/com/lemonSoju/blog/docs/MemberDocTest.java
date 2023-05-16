@@ -1,8 +1,10 @@
 package com.lemonSoju.blog.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
+import com.lemonSoju.blog.repository.MemberDataRepository;
 import com.lemonSoju.blog.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,12 +13,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,7 +37,7 @@ public class MemberDocTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private MemberService memberService;
+    private Utility utility;
     @Autowired
     private ObjectMapper objectMapper;
 
@@ -67,34 +73,36 @@ public class MemberDocTest {
                 ));
     }
 
-//    @Test
-//    @DisplayName("로그인")
-//    void login() throws Exception {
-//
-//        // given
-//        MemberLoginRequestDto request = MemberLoginRequestDto.builder()
-//                .uid("user01")
-//                .pwd("1q2w3e4r1!")
-//                .build();
-//
-//        String json = objectMapper.writeValueAsString(request);
-//
-//        // expected
-//        mockMvc.perform(post("/login")
-//                        .contentType(APPLICATION_JSON)
-//                        .accept(APPLICATION_JSON)
-//                        .content(json))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andDo(document("member-login",
-//                        requestFields(
-//                                fieldWithPath("uid").description("아이디"),
-//                                fieldWithPath("pwd").description("패스워드")
-//                        ),
-//                        responseFields(
-//                                fieldWithPath("uid").description("사용자 ID"),
-//                                fieldWithPath("accessToken").description("JWT 토큰")
-//                        )
-//                ));
-//    }
+    @Test
+    @DisplayName("로그인")
+    void login() throws Exception {
+
+        Member member = utility.mockSignup("test01");
+
+        // given
+        MemberLoginRequestDto request = MemberLoginRequestDto.builder()
+                .uid(member.getUid())
+                .pwd(member.getPwd())
+                .build();
+
+        String json = objectMapper.writeValueAsString(request);
+
+        // expected
+        mockMvc.perform(post("/login")
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON)
+                        .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andDo(document("member-login",
+                        requestFields(
+                                fieldWithPath("uid").description("아이디"),
+                                fieldWithPath("pwd").description("패스워드")
+                        ),
+                        responseFields(
+                                fieldWithPath("uid").description("사용자 ID"),
+                                fieldWithPath("accessToken").description("JWT 토큰")
+                        )
+                ));
+    }
 }
