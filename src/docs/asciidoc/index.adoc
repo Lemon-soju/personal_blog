@@ -6,6 +6,7 @@
 :toclevels: 2
 :sectlinks:
 
+= Member API
 == 회원가입
 === 요청
 include::{snippets}/member-signup/http-request.adoc[]
@@ -23,6 +24,7 @@ include::{snippets}/member-login/request-fields.adoc[]
 include::{snippets}/member-login/http-response.adoc[]
 include::{snippets}/member-login/response-fields.adoc[]
 
+= Post API
 == 글쓰기
 === 요청
 include::{snippets}/post-write/http-request.adoc[]
@@ -44,3 +46,10 @@ include::{snippets}/post-delete/http-request.adoc[]
 include::{snippets}/post-delete/request-fields.adoc[]
 === 응답
 include::{snippets}/post-delete/http-response.adoc[]
+
+= Auth API
+== 토큰 갱신
+=== 요청
+include::{snippets}/auth-refreshToken/http-request.adoc[]
+=== 응답
+include::{snippets}/auth-refreshToken/http-response.adoc[]

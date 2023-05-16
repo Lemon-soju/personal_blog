@@ -4,7 +4,7 @@ import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.exception.JwtTokenNull;
 import com.lemonSoju.blog.exception.NonExistMember;
 import com.lemonSoju.blog.exception.Unauthorized;
-import com.lemonSoju.blog.repository.MemerDataRepository;
+import com.lemonSoju.blog.repository.MemberDataRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 public class JwtService {
 
     private static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
-    private final MemerDataRepository memerDataRepository;
+    private final MemberDataRepository memberDataRepository;
 
 
     public boolean authenticateToken(HttpServletRequest request) {
@@ -47,7 +47,7 @@ public class JwtService {
             }
 
             // 사용자 존재여부 검사
-            Member findMember = memerDataRepository.findByUid(claims.getBody().getSubject()).get();
+            Member findMember = memberDataRepository.findByUid(claims.getBody().getSubject()).get();
             if(!findMember.equals(null)) {
                 log.info("일치하는 사용자 존재");
                 return true;
@@ -76,7 +76,7 @@ public class JwtService {
                     .build()
                     .parseClaimsJws(accessToken);
 
-            Member findMember = memerDataRepository.findByUid(claims.getBody().getSubject()).get();
+            Member findMember = memberDataRepository.findByUid(claims.getBody().getSubject()).get();
             return findMember;
 
         } catch (JwtException e) {
