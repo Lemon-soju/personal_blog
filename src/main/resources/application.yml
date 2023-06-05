@@ -2,9 +2,9 @@ spring:
   datasource:
 #    url: jdbc:h2:tcp://localhost/~/test
 #    url: jdbc:h2:mem:test
-    url: jdbc:postgresql://3.35.179.185:5432/postgres
-    username: lemonsoju
-    password: 1q2w3e4r1!
+    url: jdbc:postgresql://blog.cdnx8jzeu7w1.ap-northeast-2.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: zld132zkd
     show-sql: true
 #    driver-class-name:  org.h2.Driver
 
