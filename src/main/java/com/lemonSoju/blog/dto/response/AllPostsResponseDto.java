@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 public class AllPostsResponseDto {
     private Long postId;
     private String title;
-    private String content;
     private String writer;
 
     private LocalDateTime createDate;
@@ -17,10 +16,9 @@ public class AllPostsResponseDto {
     private String imagePreview;
 
     @Builder
-    public AllPostsResponseDto(Long postId, String title, String content, String writer, LocalDateTime createDate, String imagePreview) {
+    public AllPostsResponseDto(Long postId, String title, String writer, LocalDateTime createDate, String imagePreview) {
         this.postId = postId;
         this.title = title;
-        this.content = content;
         this.writer = writer;
         this.createDate = createDate;
         this.imagePreview = imagePreview;
