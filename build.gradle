@@ -31,6 +31,8 @@ dependencies {
 
 	implementation 'org.jsoup:jsoup:1.14.2'
 
+	//AWS S3 추가
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	//jwt 추가
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
     testImplementation 'org.projectlombok:lombok:1.18.22'

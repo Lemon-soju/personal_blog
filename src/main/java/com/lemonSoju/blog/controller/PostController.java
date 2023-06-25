@@ -9,12 +9,15 @@ import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
 import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.PostService;
+import com.lemonSoju.blog.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -24,6 +27,7 @@ public class PostController {
 
     private final PostService postService;
     private final JwtService jwtService;
+    private final S3UploadService s3UploadService;
 
     @PostMapping("/post/write")
     public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
@@ -57,5 +61,10 @@ public class PostController {
     @PostMapping("/member/post/edit/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostEditRequestDto postEditRequestDto) {
         postService.editPost(postEditRequestDto);
+    }
+
+    @PostMapping("/post/uploadImage")
+    public String uploadImage(@RequestPart("img")MultipartFile file) throws IOException {
+        return s3UploadService.saveFile(file);
     }
 }

@@ -88,7 +88,6 @@ public class PostDocTest {
                         responseFields(
                                 fieldWithPath("[].postId").description("글 번호"),
                                 fieldWithPath("[].title").description("글 제목"),
-                                fieldWithPath("[].content").description("글 내용"),
                                 fieldWithPath("[].writer").description("글쓴이"),
                                 fieldWithPath("[].createDate").description("생성시각"),
                                 fieldWithPath("[].imagePreview").description("이미지 미리보기").optional()
