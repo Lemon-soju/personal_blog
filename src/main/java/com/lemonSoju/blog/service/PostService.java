@@ -119,8 +119,8 @@ public class PostService {
     }
 
     @Transactional
-    public void editPost(PostEditRequestDto posteditRequestDto) {
-        Post findPost = postDataRepository.findById(posteditRequestDto.getId()).get();
+    public void editPost(PostEditRequestDto posteditRequestDto, Long postId) {
+        Post findPost = postDataRepository.findById(postId).get();
         findPost.setTitle(posteditRequestDto.getTitle());
         findPost.setContent(posteditRequestDto.getContent());
         findPost.setUpdateDate(LocalDateTime.now());

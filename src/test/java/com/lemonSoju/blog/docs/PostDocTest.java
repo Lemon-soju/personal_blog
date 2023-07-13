@@ -36,8 +36,6 @@ public class PostDocTest {
     @Autowired
     private MockMvc mockMvc;
     @Autowired
-    private PostService postService;
-    @Autowired
     private ObjectMapper objectMapper;
     @Autowired
     private Utility utility;
@@ -57,7 +55,7 @@ public class PostDocTest {
         String json = objectMapper.writeValueAsString(request);
 
         // expected
-        mockMvc.perform(post("/post/write")
+        mockMvc.perform(post("/auth/post")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .header("accessToken", jwt)
@@ -113,7 +111,7 @@ public class PostDocTest {
         String json = objectMapper.writeValueAsString(request);
 
         // expected
-        mockMvc.perform(post("/member/post/delete")
+        mockMvc.perform(post("/auth/post/delete")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .header("accessToken", jwt)

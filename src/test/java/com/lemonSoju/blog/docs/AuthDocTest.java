@@ -40,7 +40,7 @@ public class AuthDocTest {
         httpHeaders.set("accessToken", utility.mockJwt(utility.mockSignup("test01")));
 
         // expected
-        mockMvc.perform(get("/refreshToken")
+        mockMvc.perform(get("/auth/refreshToken")
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON)
                         .headers(httpHeaders))

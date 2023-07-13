@@ -59,7 +59,7 @@ public class MemberService {
 
         // jwt 설정
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 30분
+        Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis()); // 만료기간 30분
 
         String jws = Jwts.builder()
                 .setSubject(findMember.get(0).getUid())

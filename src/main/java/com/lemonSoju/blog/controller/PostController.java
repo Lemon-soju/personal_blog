@@ -29,41 +29,35 @@ public class PostController {
     private final JwtService jwtService;
     private final S3UploadService s3UploadService;
 
-    @PostMapping("/post/write")
+    @PostMapping("auth/post")
     public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
             , @RequestHeader HttpHeaders request) {
-        log.info("글쓰기 시도");
         Member writer = jwtService.findMemberByToken(request);
         return postService.createPost(postWriteRequestDto, writer);
     }
 
-    @GetMapping("/post")
+    @GetMapping("post")
     public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search) {
-        log.info("getPost 실행");
-        if (search == null) {
-            return postService.getPostService();
-        } else {
-            log.info("getPostBySearch 실행");
-            return postService.getPostBySearch(search);
-        }}
+        if (search == null) return postService.getPostService();
+        return postService.getPostBySearch(search);
+    }
 
-    @PostMapping("/member/post/delete")
+    @PostMapping("auth/post/delete")
     public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto) {
         postService.deletePosts(deletePostRequestDto);
     }
 
-    @GetMapping("/post/detail")
-    public ReadPostResponseDto readPost(@RequestParam Long id) {
-        log.info("글 detail 읽기 시도");
-        return postService.readPost(id);
+    @GetMapping("post/{postId}")
+    public ReadPostResponseDto readPost(@PathVariable Long postId) {
+        return postService.readPost(postId);
     }
 
-    @PostMapping("/member/post/edit/{postId}")
+    @PatchMapping("auth/post/{postId}")
     public void editPost(@PathVariable Long postId, @RequestBody PostEditRequestDto postEditRequestDto) {
-        postService.editPost(postEditRequestDto);
+        postService.editPost(postEditRequestDto, postId);
     }
 
-    @PostMapping("/post/uploadImage")
+    @PostMapping("auth/uploadImage")
     public String uploadImage(@RequestPart("img")MultipartFile file) throws IOException {
         return s3UploadService.saveFile(file);
     }

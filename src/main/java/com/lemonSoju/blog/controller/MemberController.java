@@ -22,17 +22,15 @@ public class MemberController {
 
     @PostMapping("signup")
     public MemberSignUpResponseDto memberSignUp(@RequestBody @Valid MemberSignUpRequestDto memberSignUpRequestDto) {
-        log.info("회원가입 시도");
         return memberService.join(memberSignUpRequestDto);
     }
 
     @PostMapping("login")
     public MemberLoginResponseDto memberLogin(@RequestBody @Valid MemberLoginRequestDto memberLoginRequestDto) {
-        log.info("로그인 시도");
         return memberService.login(memberLoginRequestDto);
     }
 
-    @GetMapping("refreshToken")
+    @GetMapping("auth/refreshToken")
     public MemberLoginResponseDto refreshToken(@RequestHeader HttpHeaders request) {
         return memberService.refreshToken(request);
     }
