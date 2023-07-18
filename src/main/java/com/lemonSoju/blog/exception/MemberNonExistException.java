@@ -1,10 +1,12 @@
 package com.lemonSoju.blog.exception;
 
-public class NonExistMember extends CustomException{
+public class MemberNonExistException extends CustomException {
 
     private static final String MESSAGE = "존재하지 않는 사용자압니다.";
 
-    public NonExistMember() { super(MESSAGE);}
+    public MemberNonExistException() {
+        super(MESSAGE);
+    }
 
     @Override
     public int getStatusCode() {

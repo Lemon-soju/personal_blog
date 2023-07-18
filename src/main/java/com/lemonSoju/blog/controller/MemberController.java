@@ -5,6 +5,7 @@ import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
 import com.lemonSoju.blog.dto.response.MemberLoginResponseDto;
 import com.lemonSoju.blog.dto.response.MemberSignUpResponseDto;
+import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.lemonSoju.blog.service.JwtService.ACCESS_TOKEN;
 
 @Slf4j
 @RestController
@@ -31,7 +34,7 @@ public class MemberController {
     }
 
     @GetMapping("auth/refreshToken")
-    public MemberLoginResponseDto refreshToken(@RequestHeader HttpHeaders request) {
-        return memberService.refreshToken(request);
+    public MemberLoginResponseDto refreshToken(@RequestHeader HttpHeaders headers) {
+        return memberService.refreshToken(headers.getFirst(ACCESS_TOKEN));
     }
 }

@@ -14,20 +14,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
     private final JwtService jwtService;
     private final long MAX_AGE_SECS = 3600;
 
-
     @Override
-    public void addCorsMappings(CorsRegistry registry){
-        registry.addMapping("/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-                .allowedHeaders("*")
-                .allowCredentials(true)
-                .maxAge(MAX_AGE_SECS);
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOriginPatterns("*").allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS").allowCredentials(true).maxAge(MAX_AGE_SECS);
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AuthInterceptor(jwtService))
-                .addPathPatterns("/auth/**");
+        registry.addInterceptor(new AuthInterceptor(jwtService)).addPathPatterns("/auth/**");
     }
 }

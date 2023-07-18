@@ -34,10 +34,12 @@ public class Member {
     private Post heart;
 
     @Builder
-    public Member(String uid, String pwd, String name, String authority){
+    public Member(String uid, String pwd, String name, String authority) {
         this.uid = uid;
         this.pwd = pwd;
         this.name = name;
         this.authority = authority;
     }
+
+
 }

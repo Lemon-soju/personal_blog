@@ -17,14 +17,14 @@ import java.util.Map;
  */
 
 @Getter
-public class ErrorResponse {
+public class ErrorResponseDto {
 
     private final String code;
     private final String message;
     private final Map<String, String> validation;
 
     @Builder
-    public ErrorResponse(String code, String message, Map<String, String> validation) {
+    public ErrorResponseDto(String code, String message, Map<String, String> validation) {
         this.code = code;
         this.message = message;
         this.validation = validation != null ? validation : new HashMap<>();

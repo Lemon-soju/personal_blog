@@ -1,6 +1,6 @@
 package com.lemonSoju.blog.controller;
 
-import com.lemonSoju.blog.dto.response.ErrorResponse;
+import com.lemonSoju.blog.dto.response.ErrorResponseDto;
 import com.lemonSoju.blog.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +14,17 @@ public class ExceptionController {
 
     @ResponseBody
     @ExceptionHandler(CustomException.class)
-    public ResponseEntity<ErrorResponse> customException(CustomException e) {
+    public ResponseEntity<ErrorResponseDto> customException(CustomException e) {
         int statusCode = e.getStatusCode();
 
-        ErrorResponse body = ErrorResponse.builder()
+        ErrorResponseDto body = ErrorResponseDto.builder()
                 .code(String.valueOf(statusCode))
                 .message(e.getMessage())
                 .validation(e.getValidation())
                 .build();
 
-        ResponseEntity<ErrorResponse> response = ResponseEntity.status(statusCode)
+        ResponseEntity<ErrorResponseDto> response = ResponseEntity
+                .status(statusCode)
                 .body(body);
 
         return response;

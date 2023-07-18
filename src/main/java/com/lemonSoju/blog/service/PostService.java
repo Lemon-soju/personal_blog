@@ -3,11 +3,11 @@ package com.lemonSoju.blog.service;
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
-import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
+import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
-import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
+import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,6 @@ import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,98 +31,46 @@ public class PostService {
     private final PostDataRepository postDataRepository;
 
     @Transactional
-    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer)  {
-        log.info("글쓰기 서비스 시작");
-        Post post = Post.builder()
-                .title(postWriteRequestDto.getTitle())
-                .content(postWriteRequestDto.getContent())
-                .writer(writer)
-                .createDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .imagePreview(extractImage(postWriteRequestDto.getContent()))
-                .build();
+    public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer) {
+        Post post = Post.builder().title(postWriteRequestDto.getTitle()).content(postWriteRequestDto.getContent()).writer(writer).createDate(LocalDateTime.now()).updateDate(LocalDateTime.now()).imagePreview(extractImage(postWriteRequestDto.getContent())).build();
         Post savedPost = postDataRepository.save(post);
-
-        PostWriteResponseDto postWriteResponseDto = PostWriteResponseDto
-                .builder()
-                .postId(savedPost.getId())
-                .build();
-
-        log.info("글쓰기 서비스 종료");
-
+        PostWriteResponseDto postWriteResponseDto = PostWriteResponseDto.builder().postId(savedPost.getId()).build();
         return postWriteResponseDto;
     }
 
-    public String extractImage(String content)  {
+    public String extractImage(String content) {
         Document doc = Jsoup.parse(content);
         Element img = doc.select("img").first();
-        if (img != null) {
-            return img.attr("src");
-        }
-        return null;
+        return (img != null) ? img.attr("src") : null;
     }
 
-    public List<AllPostsResponseDto> getPostService() {
-        List<Post> findPosts = postDataRepository.findAll();
+    public List<AllPostsResponseDto> getPostService(String search) {
+        List<Post> findPosts = (search == null) ? postDataRepository.findAll() : postDataRepository.findAllByTitleContaining(search);
         List<AllPostsResponseDto> postList = new ArrayList<>();
         for (Post e : findPosts) {
-            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto
-                    .builder()
-                    .postId(e.getId())
-                    .title(e.getTitle())
-                    .writer(e.getWriter().getUid())
-                    .createDate(e.getCreateDate())
-                    .imagePreview(e.getImagePreview())
-                    .build();
+            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder().postId(e.getId()).title(e.getTitle()).writer(e.getWriter().getUid()).createDate(e.getCreateDate()).imagePreview(e.getImagePreview()).build();
             postList.add(allPostsResponseDto);
         }
         Collections.sort(postList, Comparator.comparing(AllPostsResponseDto::getCreateDate));
         return postList;
     }
 
-    public List<AllPostsResponseDto> getPostBySearch(String search) {
-        List<Post> findPosts = postDataRepository.findAllByTitleContaining(search);
-        List<AllPostsResponseDto> postList = new ArrayList<>();
-        for (Post e : findPosts) {
-            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto
-                    .builder()
-                    .postId(e.getId())
-                    .title(e.getTitle())
-                    .writer(e.getWriter().getUid())
-                    .createDate(e.getCreateDate())
-                    .imagePreview(e.getImagePreview())
-                    .build();
-            postList.add(allPostsResponseDto);
-        }
-        return postList;
-    }
-
     @Transactional
-    public void deletePosts(DeletePostRequestDto deletePostRequestDto) {
-        for (Long e : deletePostRequestDto.getCheckedInputs()) {
+    public void deletePosts(PostDeleteRequestDto postDeleteRequestDto) {
+        for (Long e : postDeleteRequestDto.getCheckedInputs()) {
             postDataRepository.deleteById(e);
         }
     }
 
-    public ReadPostResponseDto readPost(Long id) {
+    public PostReadResponseDto readPost(Long id) {
         Post findPost = postDataRepository.findById(id).get();
-
-        ReadPostResponseDto readPostResponseDto= ReadPostResponseDto.builder()
-                .postId(findPost.getId())
-                .title(findPost.getTitle())
-                .content(findPost.getContent())
-                .author(findPost.getWriter().getUid())
-                .createDate(findPost.getCreateDate())
-                .build();
-        return readPostResponseDto;
+        PostReadResponseDto postReadResponseDto = PostReadResponseDto.builder().postId(findPost.getId()).title(findPost.getTitle()).content(findPost.getContent()).author(findPost.getWriter().getUid()).createDate(findPost.getCreateDate()).build();
+        return postReadResponseDto;
     }
 
     @Transactional
     public void editPost(PostEditRequestDto posteditRequestDto, Long postId) {
         Post findPost = postDataRepository.findById(postId).get();
-        findPost.setTitle(posteditRequestDto.getTitle());
-        findPost.setContent(posteditRequestDto.getContent());
-        findPost.setUpdateDate(LocalDateTime.now());
-        findPost.setImagePreview(extractImage(posteditRequestDto.getContent()));
+        findPost.editPost(posteditRequestDto.getTitle(), posteditRequestDto.getContent(), LocalDateTime.now(), extractImage(posteditRequestDto.getContent()));
     }
 }

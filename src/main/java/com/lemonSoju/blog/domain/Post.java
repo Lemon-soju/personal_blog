@@ -1,5 +1,6 @@
 package com.lemonSoju.blog.domain;
 
+import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,7 +14,6 @@ import static javax.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Setter
 public class Post {
     @Id
     @GeneratedValue
@@ -37,11 +37,18 @@ public class Post {
     private List<Member> hearts = new ArrayList<>();
 
     @Builder
-    public Post(String title, String content, Member writer, LocalDateTime createDate, LocalDateTime updateDate, String imagePreview){
+    public Post(String title, String content, Member writer, LocalDateTime createDate, LocalDateTime updateDate, String imagePreview) {
         this.title = title;
         this.content = content;
         this.writer = writer;
         this.createDate = createDate;
+        this.updateDate = updateDate;
+        this.imagePreview = imagePreview;
+    }
+
+    public void editPost(String title, String content, LocalDateTime updateDate, String imagePreview) {
+        this.title = title;
+        this.content = content;
         this.updateDate = updateDate;
         this.imagePreview = imagePreview;
     }

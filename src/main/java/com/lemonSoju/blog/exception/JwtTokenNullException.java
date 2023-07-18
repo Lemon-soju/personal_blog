@@ -1,10 +1,12 @@
 package com.lemonSoju.blog.exception;
 
-public class JwtTokenNull extends CustomException{
+public class JwtTokenNullException extends CustomException {
 
     private static final String MESSAGE = "accessToken 값이 Null 입니다.";
 
-    public JwtTokenNull() { super(MESSAGE);}
+    public JwtTokenNullException() {
+        super(MESSAGE);
+    }
 
     @Override
     public int getStatusCode() {

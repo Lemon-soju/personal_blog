@@ -2,11 +2,11 @@ package com.lemonSoju.blog.controller;
 
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
-import com.lemonSoju.blog.dto.request.DeletePostRequestDto;
+import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
-import com.lemonSoju.blog.dto.response.ReadPostResponseDto;
+import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.PostService;
 import com.lemonSoju.blog.service.S3UploadService;
@@ -20,6 +20,8 @@ import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
+import static com.lemonSoju.blog.service.JwtService.ACCESS_TOKEN;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -31,24 +33,23 @@ public class PostController {
 
     @PostMapping("auth/post")
     public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
-            , @RequestHeader HttpHeaders request) {
-        Member writer = jwtService.findMemberByToken(request);
+            , @RequestHeader HttpHeaders headers) {
+        Member writer = jwtService.findMemberByToken(headers.getFirst(ACCESS_TOKEN));
         return postService.createPost(postWriteRequestDto, writer);
     }
 
     @GetMapping("post")
     public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search) {
-        if (search == null) return postService.getPostService();
-        return postService.getPostBySearch(search);
+        return postService.getPostService(search);
     }
 
     @PostMapping("auth/post/delete")
-    public void deletePosts(@RequestBody DeletePostRequestDto deletePostRequestDto) {
-        postService.deletePosts(deletePostRequestDto);
+    public void deletePosts(@RequestBody PostDeleteRequestDto postDeleteRequestDto) {
+        postService.deletePosts(postDeleteRequestDto);
     }
 
     @GetMapping("post/{postId}")
-    public ReadPostResponseDto readPost(@PathVariable Long postId) {
+    public PostReadResponseDto readPost(@PathVariable Long postId) {
         return postService.readPost(postId);
     }
 
@@ -58,7 +59,7 @@ public class PostController {
     }
 
     @PostMapping("auth/uploadImage")
-    public String uploadImage(@RequestPart("img")MultipartFile file) throws IOException {
+    public String uploadImage(@RequestPart("img") MultipartFile file) throws IOException {
         return s3UploadService.saveFile(file);
     }
 }

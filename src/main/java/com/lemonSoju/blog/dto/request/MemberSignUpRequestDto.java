@@ -1,6 +1,5 @@
 package com.lemonSoju.blog.dto.request;
 
-import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,11 +13,4 @@ public class MemberSignUpRequestDto {
     private String pwd;
     @NotEmpty(message = "회원 이름은 필수입니다.")
     private String name;
-
-    @Builder
-    public MemberSignUpRequestDto(String uid, String pwd, String name) {
-        this.uid = uid;
-        this.pwd = pwd;
-        this.name = name;
-    }
 }

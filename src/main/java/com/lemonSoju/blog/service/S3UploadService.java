@@ -23,17 +23,14 @@ public class S3UploadService {
 
     public String saveFile(MultipartFile multipartFile) throws IOException {
         String originalFilename = generateUniqueFileName(multipartFile.getOriginalFilename());
-
         ObjectMetadata metadata = new ObjectMetadata();
         metadata.setContentLength(multipartFile.getSize());
         metadata.setContentType(multipartFile.getContentType());
-
         amazonS3.putObject(bucket, originalFilename, multipartFile.getInputStream(), metadata);
         return amazonS3.getUrl(bucket, originalFilename).toString();
     }
 
     public String generateUniqueFileName(String originalFilename) {
-        // 파일 이름을 고유하게 생성하는 로직 (예: UUID 사용)
         String extension = getFileExtension(originalFilename);
         String uniqueFileName = UUID.randomUUID().toString() + extension;
         return uniqueFileName;

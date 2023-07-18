@@ -48,30 +48,30 @@ public class Utility {
                 .compact();
     }
 
-    public Member mockSignup(String uid) {
-        MemberSignUpRequestDto request = MemberSignUpRequestDto.builder()
-                .uid(uid)
-                .pwd("test123!")
-                .name("james")
-                .build();
-        return memberDataRepository.save(memberService.createMember(request));
-    }
-
-    public Post mockCreatePost(Member member) {
-        PostWriteRequestDto request = PostWriteRequestDto.builder()
-                .title("test title")
-                .content("test content")
-                .build();
-        Post post = Post.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .writer(member)
-                .createDate(LocalDateTime.now())
-                .updateDate(LocalDateTime.now())
-                .imagePreview(extractImage(request.getContent()))
-                .build();
-        return postDataRepository.save(post);
-    }
+//    public Member mockSignup(String uid) {
+//        MemberSignUpRequestDto request = MemberSignUpRequestDto.builder()
+//                .uid(uid)
+//                .pwd("test123!")
+//                .name("james")
+//                .build();
+//        return memberDataRepository.save(memberService.createMember(request));
+//    }
+//
+//    public Post mockCreatePost(Member member) {
+//        PostWriteRequestDto request = PostWriteRequestDto.builder()
+//                .title("test title")
+//                .content("test content")
+//                .build();
+//        Post post = Post.builder()
+//                .title(request.getTitle())
+//                .content(request.getContent())
+//                .writer(member)
+//                .createDate(LocalDateTime.now())
+//                .updateDate(LocalDateTime.now())
+//                .imagePreview(extractImage(request.getContent()))
+//                .build();
+//        return postDataRepository.save(post);
+//    }
 
     public String extractImage(String content)  {
         Document doc = Jsoup.parse(content);
