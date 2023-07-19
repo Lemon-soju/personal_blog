@@ -26,17 +26,23 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class JwtService {
 
+    public static final String ACCESS_TOKEN = "accessToken";
     static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
     private final MemberDataRepository memberDataRepository;
-    public static final String ACCESS_TOKEN = "accessToken";
 
     public String createAccessToken(Member findMember) {
         Key key = Keys.hmacShaKeyFor(java.util.Base64.getDecoder().decode((KEY)));
         Date now = new Date();
         Date expiration = new Date(now.getTime() + Duration.ofDays(1).toMillis());
-        String jws = Jwts.builder().setSubject(findMember.getUid()).setIssuedAt(now).setExpiration(expiration).signWith(key).compact();
+        String jws = Jwts.builder()
+                .setSubject(findMember.getUid())
+                .setIssuedAt(now)
+                .setExpiration(expiration)
+                .signWith(key)
+                .compact();
         return jws;
     }
+
     public boolean authenticateToken(HttpServletRequest request) {
         String accessToken = request.getHeader("accessToken");
         if (accessToken == null || accessToken.equals("")) {

@@ -1,7 +1,9 @@
 package com.lemonSoju.blog.domain;
 
-import com.lemonSoju.blog.dto.request.PostEditRequestDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

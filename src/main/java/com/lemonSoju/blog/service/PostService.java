@@ -1,13 +1,13 @@
 package com.lemonSoju.blog.service;
 
-import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.domain.Member;
-import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
+import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
+import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
-import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.dto.response.PostReadResponseDto;
+import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +32,18 @@ public class PostService {
 
     @Transactional
     public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer) {
-        Post post = Post.builder().title(postWriteRequestDto.getTitle()).content(postWriteRequestDto.getContent()).writer(writer).createDate(LocalDateTime.now()).updateDate(LocalDateTime.now()).imagePreview(extractImage(postWriteRequestDto.getContent())).build();
+        Post post = Post.builder()
+                .title(postWriteRequestDto.getTitle())
+                .content(postWriteRequestDto.getContent())
+                .writer(writer)
+                .createDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .imagePreview(extractImage(postWriteRequestDto.getContent()))
+                .build();
         Post savedPost = postDataRepository.save(post);
-        PostWriteResponseDto postWriteResponseDto = PostWriteResponseDto.builder().postId(savedPost.getId()).build();
+        PostWriteResponseDto postWriteResponseDto = PostWriteResponseDto.builder()
+                .postId(savedPost.getId())
+                .build();
         return postWriteResponseDto;
     }
 
@@ -48,7 +57,12 @@ public class PostService {
         List<Post> findPosts = (search == null) ? postDataRepository.findAll() : postDataRepository.findAllByTitleContaining(search);
         List<AllPostsResponseDto> postList = new ArrayList<>();
         for (Post e : findPosts) {
-            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder().postId(e.getId()).title(e.getTitle()).writer(e.getWriter().getUid()).createDate(e.getCreateDate()).imagePreview(e.getImagePreview()).build();
+            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
+                    .postId(e.getId())
+                    .title(e.getTitle())
+                    .writer(e.getWriter().getUid())
+                    .createDate(e.getCreateDate())
+                    .imagePreview(e.getImagePreview()).build();
             postList.add(allPostsResponseDto);
         }
         Collections.sort(postList, Comparator.comparing(AllPostsResponseDto::getCreateDate));
@@ -64,7 +78,13 @@ public class PostService {
 
     public PostReadResponseDto readPost(Long id) {
         Post findPost = postDataRepository.findById(id).get();
-        PostReadResponseDto postReadResponseDto = PostReadResponseDto.builder().postId(findPost.getId()).title(findPost.getTitle()).content(findPost.getContent()).author(findPost.getWriter().getUid()).createDate(findPost.getCreateDate()).build();
+        PostReadResponseDto postReadResponseDto = PostReadResponseDto.builder()
+                .postId(findPost.getId())
+                .title(findPost.getTitle())
+                .content(findPost.getContent())
+                .author(findPost.getWriter().getUid())
+                .createDate(findPost.getCreateDate())
+                .build();
         return postReadResponseDto;
     }
 

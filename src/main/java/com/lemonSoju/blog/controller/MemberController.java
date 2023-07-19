@@ -5,7 +5,6 @@ import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
 import com.lemonSoju.blog.dto.response.MemberLoginResponseDto;
 import com.lemonSoju.blog.dto.response.MemberSignUpResponseDto;
-import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

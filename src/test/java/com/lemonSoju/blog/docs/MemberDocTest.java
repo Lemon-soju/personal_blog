@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
-import com.lemonSoju.blog.repository.MemberDataRepository;
-import com.lemonSoju.blog.service.MemberService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,16 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.client.support.HttpRequestWrapper;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -46,12 +40,10 @@ public class MemberDocTest {
     void signup() throws Exception {
 
         // given
-        MemberSignUpRequestDto request = MemberSignUpRequestDto.builder()
-                .uid("아이디입니다.")
-                .pwd("패스워드입니다.")
-                .name("이름입니다.")
-                .build();
-
+        MemberSignUpRequestDto request = new MemberSignUpRequestDto();
+        request.setUid("아이디입니다.");
+        request.setPwd("패스워드입니다.");
+        request.setName("이름입니다.");
         String json = objectMapper.writeValueAsString(request);
 
         // expected
@@ -80,11 +72,9 @@ public class MemberDocTest {
         Member member = utility.mockSignup("test01");
 
         // given
-        MemberLoginRequestDto request = MemberLoginRequestDto.builder()
-                .uid(member.getUid())
-                .pwd(member.getPwd())
-                .build();
-
+        MemberLoginRequestDto request = new MemberLoginRequestDto();
+        request.setUid(member.getUid());
+        request.setPwd(member.getPwd());
         String json = objectMapper.writeValueAsString(request);
 
         // expected

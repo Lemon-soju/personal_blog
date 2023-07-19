@@ -2,12 +2,8 @@ package com.lemonSoju.blog.docs;
 
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.domain.Post;
-import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
-import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.repository.MemberDataRepository;
 import com.lemonSoju.blog.repository.PostDataRepository;
-import com.lemonSoju.blog.service.MemberService;
-import com.lemonSoju.blog.service.PostService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.jsoup.Jsoup;
@@ -29,10 +25,6 @@ public class Utility {
     @Autowired
     private MemberDataRepository memberDataRepository;
     @Autowired
-    private MemberService memberService;
-    @Autowired
-    private PostService postService;
-    @Autowired
     private PostDataRepository postDataRepository;
 
     public String mockJwt(Member member) {
@@ -48,32 +40,28 @@ public class Utility {
                 .compact();
     }
 
-//    public Member mockSignup(String uid) {
-//        MemberSignUpRequestDto request = MemberSignUpRequestDto.builder()
-//                .uid(uid)
-//                .pwd("test123!")
-//                .name("james")
-//                .build();
-//        return memberDataRepository.save(memberService.createMember(request));
-//    }
-//
-//    public Post mockCreatePost(Member member) {
-//        PostWriteRequestDto request = PostWriteRequestDto.builder()
-//                .title("test title")
-//                .content("test content")
-//                .build();
-//        Post post = Post.builder()
-//                .title(request.getTitle())
-//                .content(request.getContent())
-//                .writer(member)
-//                .createDate(LocalDateTime.now())
-//                .updateDate(LocalDateTime.now())
-//                .imagePreview(extractImage(request.getContent()))
-//                .build();
-//        return postDataRepository.save(post);
-//    }
+    public Member mockSignup(String uid) {
+        Member member = Member.builder()
+                .uid(uid)
+                .pwd("test123!")
+                .name("james")
+                .build();
+        return memberDataRepository.save(member);
+    }
 
-    public String extractImage(String content)  {
+    public Post mockCreatePost(Member member) {
+        Post post = Post.builder()
+                .title("test title")
+                .content("test content")
+                .writer(member)
+                .createDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
+                .imagePreview(extractImage("test content"))
+                .build();
+        return postDataRepository.save(post);
+    }
+
+    public String extractImage(String content) {
         Document doc = Jsoup.parse(content);
         Element img = doc.select("img").first();
         if (img != null) {
