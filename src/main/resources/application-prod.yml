@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://blog.cdnx8jzeu7w1.ap-northeast-2.rds.amazonaws.com:5432/postgres
-    username: postgres
-    password: zld132zkd
+    url: ${{ secrets.DB_URL }}
+    username: ${{ secrets.DB_USERNAME }}
+    password: ${{ secrets.DB_PASSWORD }}
     show-sql: true
   servlet:
     multipart:
@@ -19,9 +19,8 @@ cloud:
     stack:
       auto: false
     credentials:
-      access-key: AKIA2GABW3E775HY4FMY
-      secret-key: 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
-
+      access-key: ${{ secrets.S3_ACCESS_KEY }}
+      secret-key: ${{ secrets.S3_SECRET_KEY }}
 
 jpa:
   hibernate:
@@ -43,4 +42,4 @@ server:
       tracking-modes: cookie
 
 jwt:
-  key: ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=
+  key: ${{ secrets.JWT_KEY }}

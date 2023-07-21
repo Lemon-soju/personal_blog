@@ -13,6 +13,7 @@ import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.codec.binary.Base64;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +28,8 @@ import java.util.NoSuchElementException;
 public class JwtService {
 
     public static final String ACCESS_TOKEN = "accessToken";
-    static final String KEY = "ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=";
+    @Value("${jwt.key}")
+    public String KEY;
     private final MemberDataRepository memberDataRepository;
 
     public String createAccessToken(Member findMember) {
