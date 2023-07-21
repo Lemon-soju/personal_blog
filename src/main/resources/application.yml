@@ -1,0 +1,46 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://blog.cdnx8jzeu7w1.ap-northeast-2.rds.amazonaws.com:5432/postgres
+    username: postgres
+    password: zld132zkd
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+cloud:
+  aws:
+    s3:
+      bucket: lemonsoju-bucket
+    region:
+      static: "ap-northeast-2"
+      auto: false
+    stack:
+      auto: false
+    credentials:
+      access-key: AKIA2GABW3E775HY4FMY
+      secret-key: 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
+
+
+jpa:
+  hibernate:
+    ddl-auto: none
+  properties:
+    hibernate:
+      format_sql: true
+      dialect: org.hibernate.dialect.PostgreSQLDialect
+      use_sql_comments: true
+  show_sql: true
+
+
+logging.level:
+  org.hibernate.SQL: debug
+
+server:
+  servlet:
+    session:
+      tracking-modes: cookie
+
+jwt:
+  key: ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=
