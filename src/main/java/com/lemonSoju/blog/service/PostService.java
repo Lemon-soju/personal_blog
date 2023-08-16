@@ -8,6 +8,7 @@ import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
+import com.lemonSoju.blog.exception.PostNotFoundException;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -77,7 +75,11 @@ public class PostService {
     }
 
     public PostReadResponseDto readPost(Long id) {
-        Post findPost = postDataRepository.findById(id).get();
+        Optional<Post> findOptionalPost = postDataRepository.findById(id);
+        if(findOptionalPost.isEmpty()) {
+            new PostNotFoundException();
+        }
+        Post findPost = findOptionalPost.get();
         PostReadResponseDto postReadResponseDto = PostReadResponseDto.builder()
                 .postId(findPost.getId())
                 .title(findPost.getTitle())
