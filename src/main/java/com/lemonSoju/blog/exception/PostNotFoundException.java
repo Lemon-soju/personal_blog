@@ -9,6 +9,6 @@ public class PostNotFoundException extends CustomException {
 
     @Override
     public int getStatusCode() {
-        return 401;
+        return 404;
     }
 }

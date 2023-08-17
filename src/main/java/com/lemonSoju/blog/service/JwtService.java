@@ -90,7 +90,7 @@ public class JwtService {
 
         Optional<Member> findMember = memberDataRepository.findByUid(claims.getBody().getSubject());
         if (findMember.isEmpty()) {
-            new MemberNonExistException();
+            throw new MemberNonExistException();
         }
         return findMember.get();
     }
