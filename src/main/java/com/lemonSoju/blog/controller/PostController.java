@@ -38,6 +38,13 @@ public class PostController {
         return postService.createPost(postWriteRequestDto, writer);
     }
 
+    @PatchMapping("auth/post/{postId}")
+    public void editPost(@PathVariable Long postId, @RequestBody PostEditRequestDto postEditRequestDto
+            , @RequestHeader HttpHeaders headers) {
+        Member writer = jwtService.findMemberByToken(headers.getFirst(ACCESS_TOKEN));
+        postService.editPost(postEditRequestDto, postId, writer);
+    }
+
     @GetMapping("post")
     public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search) {
         return postService.getPostService(search);
@@ -51,11 +58,6 @@ public class PostController {
     @GetMapping("post/{postId}")
     public PostReadResponseDto readPost(@PathVariable Long postId) {
         return postService.readPost(postId);
-    }
-
-    @PatchMapping("auth/post/{postId}")
-    public void editPost(@PathVariable Long postId, @RequestBody PostEditRequestDto postEditRequestDto) {
-        postService.editPost(postEditRequestDto, postId);
     }
 
     @PostMapping("auth/uploadImage")

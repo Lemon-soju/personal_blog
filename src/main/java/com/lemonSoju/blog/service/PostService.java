@@ -9,6 +9,7 @@ import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
 import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.exception.PostNotFoundException;
+import com.lemonSoju.blog.exception.UnauthorizedException;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -77,7 +78,7 @@ public class PostService {
     public PostReadResponseDto readPost(Long id) {
         Optional<Post> findOptionalPost = postDataRepository.findById(id);
         if(findOptionalPost.isEmpty()) {
-            new PostNotFoundException();
+            throw new PostNotFoundException();
         }
         Post findPost = findOptionalPost.get();
         PostReadResponseDto postReadResponseDto = PostReadResponseDto.builder()
@@ -91,8 +92,11 @@ public class PostService {
     }
 
     @Transactional
-    public void editPost(PostEditRequestDto posteditRequestDto, Long postId) {
+    public void editPost(PostEditRequestDto posteditRequestDto, Long postId, Member writer) {
         Post findPost = postDataRepository.findById(postId).get();
+        if(!writer.equals(findPost.getWriter())) {
+            throw new UnauthorizedException();
+        }
         findPost.editPost(posteditRequestDto.getTitle(), posteditRequestDto.getContent(), LocalDateTime.now(), extractImage(posteditRequestDto.getContent()));
     }
 }
