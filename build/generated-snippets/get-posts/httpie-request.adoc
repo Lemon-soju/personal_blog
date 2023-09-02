@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ http GET 'http://http://3.35.179.185/post' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

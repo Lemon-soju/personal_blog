@@ -1,0 +1,7 @@
+[source,bash]
+----
+$ curl 'http://http://3.35.179.185/signup' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -d '{"uid":"아이디입니다.","pwd":"패스워드입니다.","name":"이름입니다."}'
+----

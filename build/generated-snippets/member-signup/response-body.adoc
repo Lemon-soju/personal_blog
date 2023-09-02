@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"uid":"아이디입니다."}
+----

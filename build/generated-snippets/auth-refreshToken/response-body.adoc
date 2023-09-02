@@ -1,0 +1,4 @@
+[source,options="nowrap"]
+----
+{"uid":"test01","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNDcsImV4cCI6MTY5MzczMTc0N30.WdkEi6tbsVu-4NBBTX0YRmIhgI4MuoB4mCXcTqiYcZw"}
+----

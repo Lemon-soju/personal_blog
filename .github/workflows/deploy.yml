@@ -5,8 +5,6 @@ on:
     branches:
       - main
 
-# 본인이 설정한 값을 여기서 채워넣습니다.
-# 리전, 버킷 이름, CodeDeploy 앱 이름, CodeDeploy 배포 그룹 이름
 env:
   AWS_REGION: ap-northeast-2
   S3_BUCKET_NAME: s3-cicd-lemonsoju-bucket
@@ -27,21 +25,47 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # (2) JDK 11 세팅
+    # (2) appcliation.yml secrets 세팅
+    - name: Replace secrets in application.yml
+      run: |
+        # GitHub Actions에서 secrets 값을 읽어옴
+        DB_URL="${{ secrets.DB_URL }}"
+        DB_USERNAME="${{ secrets.DB_USERNAME }}"
+        DB_PASSWORD="${{ secrets.DB_PASSWORD }}"
+        S3_ACCESS_KEY="${{ secrets.S3_ACCESS_KEY }}"
+        S3_SECRET_KEY="${{ secrets.S3_SECRET_KEY }}"
+        JWT_KEY="${{ secrets.JWT_KEY }}"
+        
+        # application.yml 파일 내의 프로퍼티를 secrets 값으로 대체
+        sed -i "s|url: .*|url: $DB_URL|" src/main/resources/application.yml
+        sed -i "s|username: .*|username: $DB_USERNAME|" src/main/resources/application.yml
+        sed -i "s|password: .*|password: $DB_PASSWORD|" src/main/resources/application.yml
+        sed -i "s|access-key: .*|access-key: $S3_ACCESS_KEY|" src/main/resources/application.yml
+        sed -i "s|secret-key: .*|secret-key: $S3_SECRET_KEY|" src/main/resources/application.yml
+        sed -i "s|key: .*|key: $JWT_KEY|" src/main/resources/application.yml
+
+    # (3) JDK 11 세팅
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
         distribution: 'temurin'
         java-version: '11'
 
+    # (4) Gradle build
     - name: Run chmod to make gradlew executable
       run: chmod +x ./gradlew
 
-    # (3) Gradle build
     - name: Build with Gradle
       uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: bootJar
 
-    # (4) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
+    - name: Build with Gradle
+      uses: gradle/gradle-build-action@0d13054264b0bb894ded474f08ebb30921341cee
+      with:
+        arguments: clean build
+
+    # (5) AWS 인증 (IAM 사용자 Access Key, Secret Key 활용)
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
@@ -49,7 +73,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }}
         aws-region: ${{ env.AWS_REGION }}
 
-    # (5) 빌드 결과물을 S3 버킷에 업로드
+    # (6) 빌드 결과물을 S3 버킷에 업로드
     - name: Upload to AWS S3
       run: |
         aws deploy push \
@@ -58,7 +82,7 @@ jobs:
           --s3-location s3://$S3_BUCKET_NAME/cicd/$GITHUB_SHA.zip \
           --source .
 
-    # (6) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
+    # (7) S3 버킷에 있는 파일을 대상으로 CodeDeploy 실행
     - name: Deploy to AWS EC2 from S3
       run: |
         aws deploy create-deployment \

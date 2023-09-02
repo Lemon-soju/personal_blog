@@ -1,0 +1,8 @@
+|===
+|Path|Type|Description
+
+|`+postId+`
+|`+Number+`
+|글 번호
+
+|===

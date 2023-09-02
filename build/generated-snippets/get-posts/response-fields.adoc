@@ -1,0 +1,24 @@
+|===
+|Path|Type|Description
+
+|`+[].postId+`
+|`+Number+`
+|글 번호
+
+|`+[].title+`
+|`+String+`
+|글 제목
+
+|`+[].writer+`
+|`+String+`
+|글쓴이
+
+|`+[].createDate+`
+|`+String+`
+|생성시각
+
+|`+[].imagePreview+`
+|`+String+`
+|이미지 미리보기
+
+|===

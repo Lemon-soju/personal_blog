@@ -1,0 +1,8 @@
+[source,bash]
+----
+$ curl 'http://http://3.35.179.185/auth/post' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -H 'accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNTMsImV4cCI6MTY5MzY0NzE1M30.dR1hGCVCIv5ueQjuaB1pjrnkjVQ_fJ6CC9syWOuadfI' \
+    -d '{"title":"test title","content":"test content"}'
+----

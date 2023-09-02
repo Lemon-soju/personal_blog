@@ -1,0 +1,6 @@
+[source,bash]
+----
+$ echo '{"uid":"test01","pwd":"test123!"}' | http POST 'http://http://3.35.179.185/login' \
+    'Content-Type:application/json;charset=UTF-8' \
+    'Accept:application/json'
+----

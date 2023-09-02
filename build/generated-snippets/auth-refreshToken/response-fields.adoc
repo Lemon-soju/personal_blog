@@ -1,0 +1,12 @@
+|===
+|Path|Type|Description
+
+|`+uid+`
+|`+String+`
+|사용자 ID
+
+|`+accessToken+`
+|`+String+`
+|JWT 토큰
+
+|===

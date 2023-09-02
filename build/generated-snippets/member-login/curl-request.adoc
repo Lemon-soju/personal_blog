@@ -1,0 +1,7 @@
+[source,bash]
+----
+$ curl 'http://http://3.35.179.185/login' -i -X POST \
+    -H 'Content-Type: application/json;charset=UTF-8' \
+    -H 'Accept: application/json' \
+    -d '{"uid":"test01","pwd":"test123!"}'
+----
