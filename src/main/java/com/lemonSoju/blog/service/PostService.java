@@ -16,6 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +32,7 @@ public class PostService {
     private final PostDataRepository postDataRepository;
 
     @Transactional
+    @CacheEvict(value = "postCacheStore", allEntries = true)
     public PostWriteResponseDto createPost(PostWriteRequestDto postWriteRequestDto, Member writer) {
         Post post = Post.builder()
                 .title(postWriteRequestDto.getTitle())
@@ -52,8 +55,9 @@ public class PostService {
         return (img != null) ? img.attr("src") : null;
     }
 
+    @Cacheable(value = "postCacheStore", condition = "#search == null")
     public List<AllPostsResponseDto> getPostService(String search) {
-        List<Post> findPosts = (search == null) ? postDataRepository.findAll() : postDataRepository.findAllByTitleContaining(search);
+        List<Post> findPosts = postDataRepository.findAllWithFetchJoin(search);
         List<AllPostsResponseDto> postList = new ArrayList<>();
         for (Post e : findPosts) {
             AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
@@ -68,6 +72,7 @@ public class PostService {
         return postList;
     }
 
+    @CacheEvict(value = "postCacheStore", allEntries = true)
     @Transactional
     public void deletePosts(PostDeleteRequestDto postDeleteRequestDto) {
         for (Long e : postDeleteRequestDto.getCheckedInputs()) {
@@ -91,6 +96,7 @@ public class PostService {
         return postReadResponseDto;
     }
 
+    @CacheEvict(value = "postCacheStore", allEntries = true)
     @Transactional
     public void editPost(PostEditRequestDto posteditRequestDto, Long postId, Member writer) {
         Post findPost = postDataRepository.findById(postId).get();
