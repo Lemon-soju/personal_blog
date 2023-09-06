@@ -1,9 +1,7 @@
 package com.lemonSoju.blog.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -13,8 +11,6 @@ import java.util.List;
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 public class Post {
     @Id
@@ -32,11 +28,8 @@ public class Post {
     private String imagePreview;
 
     @ManyToOne(fetch = LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private Member writer;
-
-    @OneToMany(mappedBy = "heart")
-    private List<Member> hearts = new ArrayList<>();
 
     @Builder
     public Post(String title, String content, Member writer, LocalDateTime createDate, LocalDateTime updateDate, String imagePreview) {
@@ -46,6 +39,9 @@ public class Post {
         this.createDate = createDate;
         this.updateDate = updateDate;
         this.imagePreview = imagePreview;
+    }
+
+    protected Post() {
     }
 
     public void editPost(String title, String content, LocalDateTime updateDate, String imagePreview) {
