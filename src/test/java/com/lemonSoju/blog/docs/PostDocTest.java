@@ -66,6 +66,10 @@ public class PostDocTest {
     @Test
     @DisplayName("글 전체 불러오기")
     void getPosts() throws Exception {
+        // given
+        Member member = utility.mockSignup("test01");
+        utility.mockCreatePost(member);
+
         // expected
         mockMvc.perform(get("/post")
                         .contentType(APPLICATION_JSON)

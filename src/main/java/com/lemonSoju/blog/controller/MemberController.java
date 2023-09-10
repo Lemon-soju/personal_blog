@@ -9,6 +9,7 @@ import com.lemonSoju.blog.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -35,5 +36,10 @@ public class MemberController {
     @GetMapping("auth/refreshToken")
     public MemberLoginResponseDto refreshToken(@RequestHeader HttpHeaders headers) {
         return memberService.refreshToken(headers.getFirst(ACCESS_TOKEN));
+    }
+
+    @PostMapping("like/post/{postId}")
+    public ResponseEntity createLike(@PathVariable Long postId, @RequestHeader HttpHeaders headers) {
+        return memberService.createLike(postId, headers.getFirst(ACCESS_TOKEN));
     }
 }

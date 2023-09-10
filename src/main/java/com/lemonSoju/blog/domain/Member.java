@@ -8,8 +8,6 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static javax.persistence.FetchType.LAZY;
-
 @Entity
 @Getter
 public class Member {
@@ -22,8 +20,11 @@ public class Member {
     private String name;
     private String authority;
 
-    @OneToMany(mappedBy = "writer")
+    @OneToMany(mappedBy = "writer", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Post> posts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Like> likes = new ArrayList<>();
 
     @Builder
     public Member(String uid, String pwd, String name, String authority) {
