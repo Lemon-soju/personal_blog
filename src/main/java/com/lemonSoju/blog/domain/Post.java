@@ -5,6 +5,8 @@ import lombok.Getter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import static javax.persistence.FetchType.LAZY;
 
@@ -28,6 +30,9 @@ public class Post {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member writer;
+
+    @OneToMany(mappedBy = "post", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<Like> likes = new ArrayList<>();
 
     @Builder
     public Post(String title, String content, Member writer, LocalDateTime createDate, LocalDateTime updateDate, String imagePreview) {

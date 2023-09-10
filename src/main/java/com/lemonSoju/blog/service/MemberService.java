@@ -1,16 +1,22 @@
 package com.lemonSoju.blog.service;
 
 
+import com.lemonSoju.blog.domain.Like;
 import com.lemonSoju.blog.domain.Member;
+import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.dto.request.MemberLoginRequestDto;
 import com.lemonSoju.blog.dto.request.MemberSignUpRequestDto;
 import com.lemonSoju.blog.dto.response.MemberLoginResponseDto;
 import com.lemonSoju.blog.dto.response.MemberSignUpResponseDto;
+import com.lemonSoju.blog.dto.response.OkResponseDto;
 import com.lemonSoju.blog.exception.MemberDuplicateException;
 import com.lemonSoju.blog.exception.MemberNonExistException;
+import com.lemonSoju.blog.repository.LikeDataRepository;
 import com.lemonSoju.blog.repository.MemberDataRepository;
+import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +31,8 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberDataRepository memberDataRepository;
+    private final PostDataRepository postDataRepository;
+    private final LikeDataRepository likeDataRepository;
     private final JwtService jwtService;
 
     @Transactional
@@ -73,5 +81,15 @@ public class MemberService {
         if (!findMember.isEmpty()) {
             throw new MemberDuplicateException();
         }
+    }
+
+    @Transactional
+    public ResponseEntity<OkResponseDto> createLike(Long postId, String accessToken) {
+        Member findMember = jwtService.findMemberByToken(accessToken);
+        Post findPost = postDataRepository.findById(postId).get();
+        Like like = Like.builder().build();
+        like.addMemberAndPost(findPost, findMember);
+        likeDataRepository.save(like);
+        return ResponseEntity.ok(new OkResponseDto());
     }
 }
