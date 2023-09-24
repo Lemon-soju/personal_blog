@@ -2,6 +2,7 @@ package com.lemonSoju.blog.domain;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -10,6 +11,7 @@ import static javax.persistence.FetchType.LAZY;
 @Entity
 @Getter
 @Table(name = "likes")
+@NoArgsConstructor
 public class Like {
     @Id
     @GeneratedValue
@@ -32,14 +34,5 @@ public class Like {
         this.member = member;
         post.getLikes().add(this);
         member.getLikes().add(this);
-    }
-
-    @Builder
-    public Like(Post post, Member member) {
-        this.post = post;
-        this.member = member;
-    }
-
-    protected Like() {
     }
 }
