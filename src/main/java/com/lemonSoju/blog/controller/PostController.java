@@ -46,8 +46,9 @@ public class PostController {
     }
 
     @GetMapping("post")
-    public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search) {
-        return postService.getPostService(search);
+    public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search,
+                                             @RequestHeader(name = ACCESS_TOKEN, required = false) String accessToken) {
+        return postService.getPostService(search, accessToken);
     }
 
     @PostMapping("auth/post/delete")
