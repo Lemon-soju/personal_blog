@@ -2,6 +2,7 @@ package com.lemonSoju.blog.docs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lemonSoju.blog.domain.Member;
+import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import org.junit.jupiter.api.DisplayName;
@@ -57,10 +58,32 @@ public class PostDocTest {
                         .header("accessToken", jwt)
                         .content(json)).andDo(print())
                 .andExpect(status().isOk())
-                .andDo(document("post-write", requestFields(fieldWithPath("title")
-                        .description("제목"), fieldWithPath("content")
-                        .description("내용")), responseFields(fieldWithPath("postId")
-                        .description("글 번호"))));
+                .andDo(document("post-write", requestFields(
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("content").description("내용")),
+                        responseFields(fieldWithPath("postId").description("글 번호"))));
+    }
+
+    @Test
+    @DisplayName("글 읽기")
+    void postRead() throws Exception {
+        // given
+        Member member = utility.mockSignup("test01");
+        Post post = utility.mockCreatePost(member);
+
+        // expected
+        mockMvc.perform(get("/post/{postId}", post.getId())
+                        .contentType(APPLICATION_JSON)
+                        .accept(APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andDo(document("post-read",
+                        responseFields(
+                                fieldWithPath("postId").description("제목"),
+                                fieldWithPath("title").description("제목"),
+                                fieldWithPath("content").description("내용"),
+                                fieldWithPath("author").description("글쓴이"),
+                                fieldWithPath("createDate").description("생성 날짜"))
+                ));
     }
 
     @Test
@@ -77,13 +100,14 @@ public class PostDocTest {
                 .andDo(print())
                 .andExpect(status()
                         .isOk())
-                .andDo(document("get-posts", responseFields(fieldWithPath("[].postId")
-                        .description("글 번호"), fieldWithPath("[].title")
-                        .description("글 제목"), fieldWithPath("[].writer")
-                        .description("글쓴이"), fieldWithPath("[].createDate")
-                        .description("생성시각"), fieldWithPath("[].imagePreview")
-                        .description("이미지 미리보기")
-                        .optional())));
+                .andDo(document("get-posts", responseFields(
+                        fieldWithPath("[].postId").description("글 번호"),
+                        fieldWithPath("[].title").description("글 제목"),
+                        fieldWithPath("[].writer").description("글쓴이"),
+                        fieldWithPath("[].createDate").description("생성시각"),
+                        fieldWithPath("[].imagePreview").description("이미지 미리보기").optional(),
+                        fieldWithPath("[].isLiked").description("찜하기 여부")
+                                .optional())));
     }
 
     @Test
