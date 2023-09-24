@@ -6,7 +6,7 @@
 :toclevels: 2
 :sectlinks:
 
-= Member API
+= 회원 API
 == 회원가입
 === 요청
 include::{snippets}/member-signup/http-request.adoc[]
@@ -24,14 +24,21 @@ include::{snippets}/member-login/request-fields.adoc[]
 include::{snippets}/member-login/http-response.adoc[]
 include::{snippets}/member-login/response-fields.adoc[]
 
-= Post API
-== 글쓰기
+= 게시글 API
+== 글 쓰기
 === 요청
 include::{snippets}/post-write/http-request.adoc[]
 include::{snippets}/post-write/request-fields.adoc[]
 === 응답
 include::{snippets}/post-write/http-response.adoc[]
 include::{snippets}/post-write/response-fields.adoc[]
+
+== 글 읽기
+=== 요청
+include::{snippets}/post-read/http-request.adoc[]
+=== 응답
+include::{snippets}/post-read/http-response.adoc[]
+include::{snippets}/post-read/response-fields.adoc[]
 
 == 글 전체 불러오기
 === 요청
@@ -47,9 +54,24 @@ include::{snippets}/post-delete/request-fields.adoc[]
 === 응답
 include::{snippets}/post-delete/http-response.adoc[]
 
-= Auth API
+= 인증 API
 == 토큰 갱신
 === 요청
 include::{snippets}/auth-refreshToken/http-request.adoc[]
 === 응답
 include::{snippets}/auth-refreshToken/http-response.adoc[]
+
+= 찜하기 API
+== 찜하기 생성
+=== 요청
+include::{snippets}/like-create/http-request.adoc[]
+=== 응답
+include::{snippets}/like-create/http-response.adoc[]
+include::{snippets}/like-create/response-fields.adoc[]
+
+== 찜하기 삭제
+=== 요청
+include::{snippets}/like-delete/http-request.adoc[]
+=== 응답
+include::{snippets}/like-delete/http-response.adoc[]
+include::{snippets}/like-delete/response-fields.adoc[]

@@ -1,5 +1,6 @@
 package com.lemonSoju.blog.docs;
 
+import com.lemonSoju.blog.domain.Like;
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.repository.MemberDataRepository;
@@ -68,5 +69,11 @@ public class Utility {
             return img.attr("src");
         }
         return null;
+    }
+
+    public Like mockCreateLike(Member member, Post post) {
+        Like like = new Like();
+        like.addMemberAndPost(post, member);
+        return like;
     }
 }

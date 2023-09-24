@@ -1,5 +1,6 @@
 package com.lemonSoju.blog.service;
 
+import com.lemonSoju.blog.domain.Like;
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
@@ -10,6 +11,7 @@ import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.exception.PostNotFoundException;
 import com.lemonSoju.blog.exception.UnauthorizedException;
+import com.lemonSoju.blog.repository.LikeDataRepository;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,8 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PostService {
     private final PostDataRepository postDataRepository;
+    private final LikeDataRepository likeDataRepository;
+    private final JwtService jwtService;
 
     @Transactional
     @CacheEvict(value = "postCacheStore", allEntries = true)
@@ -56,16 +60,23 @@ public class PostService {
     }
 
     @Cacheable(value = "postCacheStore", condition = "#search == null")
-    public List<AllPostsResponseDto> getPostService(String search) {
+    public List<AllPostsResponseDto> getPostService(String search, String accessToken) {
         List<Post> findPosts = postDataRepository.findAllWithFetchJoin(search);
+        Member findMember = accessToken != null ? jwtService.findMemberByToken(accessToken) : null;
+
         List<AllPostsResponseDto> postList = new ArrayList<>();
         for (Post e : findPosts) {
+            boolean isLiked = findMember != null ? isLiked = findMember.getLikes().stream()
+                    .anyMatch(like -> like.getPost().getId() == e.getId()) : false;
+
             AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
                     .postId(e.getId())
                     .title(e.getTitle())
                     .writer(e.getWriter().getUid())
                     .createDate(e.getCreateDate())
-                    .imagePreview(e.getImagePreview()).build();
+                    .imagePreview(e.getImagePreview())
+                    .isLiked(isLiked)
+                    .build();
             postList.add(allPostsResponseDto);
         }
         Collections.sort(postList, Comparator.comparing(AllPostsResponseDto::getCreateDate));
@@ -82,7 +93,7 @@ public class PostService {
 
     public PostReadResponseDto readPost(Long id) {
         Optional<Post> findOptionalPost = postDataRepository.findById(id);
-        if(findOptionalPost.isEmpty()) {
+        if (findOptionalPost.isEmpty()) {
             throw new PostNotFoundException();
         }
         Post findPost = findOptionalPost.get();
@@ -100,7 +111,7 @@ public class PostService {
     @Transactional
     public void editPost(PostEditRequestDto posteditRequestDto, Long postId, Member writer) {
         Post findPost = postDataRepository.findById(postId).get();
-        if(!writer.equals(findPost.getWriter())) {
+        if (!writer.equals(findPost.getWriter())) {
             throw new UnauthorizedException();
         }
         findPost.editPost(posteditRequestDto.getTitle(), posteditRequestDto.getContent(), LocalDateTime.now(), extractImage(posteditRequestDto.getContent()));

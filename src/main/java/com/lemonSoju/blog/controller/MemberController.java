@@ -37,9 +37,4 @@ public class MemberController {
     public MemberLoginResponseDto refreshToken(@RequestHeader HttpHeaders headers) {
         return memberService.refreshToken(headers.getFirst(ACCESS_TOKEN));
     }
-
-    @PostMapping("like/post/{postId}")
-    public ResponseEntity createLike(@PathVariable Long postId, @RequestHeader HttpHeaders headers) {
-        return memberService.createLike(postId, headers.getFirst(ACCESS_TOKEN));
-    }
 }

@@ -87,9 +87,17 @@ public class MemberService {
     public ResponseEntity<OkResponseDto> createLike(Long postId, String accessToken) {
         Member findMember = jwtService.findMemberByToken(accessToken);
         Post findPost = postDataRepository.findById(postId).get();
-        Like like = Like.builder().build();
+        Like like = new Like();
         like.addMemberAndPost(findPost, findMember);
         likeDataRepository.save(like);
+        return ResponseEntity.ok(new OkResponseDto());
+    }
+
+    @Transactional
+    public ResponseEntity<OkResponseDto> deleteLike(Long postId, String accessToken) {
+        Member findMember = jwtService.findMemberByToken(accessToken);
+        Like like = likeDataRepository.findByPostIdAndMemberId(postId, findMember.getId()).get();
+        likeDataRepository.delete(like);
         return ResponseEntity.ok(new OkResponseDto());
     }
 }
