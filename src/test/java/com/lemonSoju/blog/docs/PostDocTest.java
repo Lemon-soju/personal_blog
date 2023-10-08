@@ -92,22 +92,28 @@ public class PostDocTest {
         // given
         Member member = utility.mockSignup("test01");
         utility.mockCreatePost(member);
+        int page = 1;
+        int count = 10;
+        String writer = member.getUid();
 
         // expected
         mockMvc.perform(get("/post")
+                        .param("page", String.valueOf(page))
+                        .param("count", String.valueOf(count))
+                        .param("writer", writer)
                         .contentType(APPLICATION_JSON)
                         .accept(APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status()
                         .isOk())
                 .andDo(document("get-posts", responseFields(
-                        fieldWithPath("[].postId").description("글 번호"),
-                        fieldWithPath("[].title").description("글 제목"),
-                        fieldWithPath("[].writer").description("글쓴이"),
-                        fieldWithPath("[].createDate").description("생성시각"),
-                        fieldWithPath("[].imagePreview").description("이미지 미리보기").optional(),
-                        fieldWithPath("[].isLiked").description("찜하기 여부")
-                                .optional())));
+                        fieldWithPath("posts.[].postId").description("글 번호"),
+                        fieldWithPath("posts.[].title").description("글 제목"),
+                        fieldWithPath("posts.[].writer").description("글쓴이"),
+                        fieldWithPath("posts.[].createDate").description("생성시각"),
+                        fieldWithPath("posts.[].imagePreview").description("이미지 미리보기").optional(),
+                        fieldWithPath("posts.[].isLiked").description("찜하기 여부").optional(),
+                        fieldWithPath("totalItemsCount").description("전체 글 개수"))));
     }
 
     @Test
