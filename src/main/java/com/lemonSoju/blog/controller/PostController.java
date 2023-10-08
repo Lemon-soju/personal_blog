@@ -5,6 +5,7 @@ import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
+import com.lemonSoju.blog.dto.response.PostInfoResponseDto;
 import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.service.JwtService;
@@ -46,9 +47,12 @@ public class PostController {
     }
 
     @GetMapping("post")
-    public List<AllPostsResponseDto> getPost(@RequestParam(name = "search", required = false) String search,
-                                             @RequestHeader(name = ACCESS_TOKEN, required = false) String accessToken) {
-        return postService.getPostService(search, accessToken);
+    public AllPostsResponseDto getPost(@RequestParam(name = "search", required = false) String search,
+                                       @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                       @RequestParam(name = "count", required = false, defaultValue = "10") int count,
+                                       @RequestParam(name = "writer", required = false) String writer,
+                                       @RequestHeader(name = ACCESS_TOKEN, required = false) String accessToken) {
+        return postService.getPostService(search, accessToken, page, count, writer);
     }
 
     @PostMapping("auth/post/delete")
