@@ -1,12 +1,12 @@
 package com.lemonSoju.blog.service;
 
-import com.lemonSoju.blog.domain.Like;
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.domain.Post;
 import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
+import com.lemonSoju.blog.dto.response.PostInfoResponseDto;
 import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.exception.PostNotFoundException;
@@ -20,11 +20,16 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -32,7 +37,6 @@ import java.util.*;
 @RequiredArgsConstructor
 public class PostService {
     private final PostDataRepository postDataRepository;
-    private final LikeDataRepository likeDataRepository;
     private final JwtService jwtService;
 
     @Transactional
@@ -60,16 +64,23 @@ public class PostService {
     }
 
     @Cacheable(value = "postCacheStore", condition = "#search == null")
-    public List<AllPostsResponseDto> getPostService(String search, String accessToken) {
-        List<Post> findPosts = postDataRepository.findAllWithFetchJoin(search);
+    public AllPostsResponseDto getPostService(String search, String accessToken, int page, int count, String writer) {
+        Pageable pageable = PageRequest.of(page - 1, count, Sort.by(Sort.Direction.DESC, "createDate"));
         Member findMember = accessToken != null ? jwtService.findMemberByToken(accessToken) : null;
 
-        List<AllPostsResponseDto> postList = new ArrayList<>();
+        List<Post> findPosts;
+        if (writer != null && findMember != null && writer.equals(findMember.getUid())) {
+            findPosts = postDataRepository.findAllWithFetchJoin(search, writer, pageable);
+        } else {
+            findPosts = postDataRepository.findAllWithFetchJoin(search, null, pageable);
+        }
+
+        List<PostInfoResponseDto> postList = new ArrayList<>();
         for (Post e : findPosts) {
             boolean isLiked = findMember != null ? isLiked = findMember.getLikes().stream()
                     .anyMatch(like -> like.getPost().getId() == e.getId()) : false;
 
-            AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
+            PostInfoResponseDto postInfoResponseDto = PostInfoResponseDto.builder()
                     .postId(e.getId())
                     .title(e.getTitle())
                     .writer(e.getWriter().getUid())
@@ -77,10 +88,14 @@ public class PostService {
                     .imagePreview(e.getImagePreview())
                     .isLiked(isLiked)
                     .build();
-            postList.add(allPostsResponseDto);
+            postList.add(postInfoResponseDto);
         }
-        Collections.sort(postList, Comparator.comparing(AllPostsResponseDto::getCreateDate));
-        return postList;
+        long totalItemsCount = search == null ? postDataRepository.count() : postDataRepository.countBySearch(search);
+        AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
+                .posts(postList)
+                .totalItemsCount(totalItemsCount)
+                .build();
+        return allPostsResponseDto;
     }
 
     @CacheEvict(value = "postCacheStore", allEntries = true)
