@@ -7,7 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class AllPostsResponseDto {
+public class PostInfoResponseDto {
     private Long postId;
     private String title;
     private String writer;
@@ -21,7 +21,7 @@ public class AllPostsResponseDto {
     private boolean isLiked;
 
     @Builder
-    public AllPostsResponseDto(Long postId, String title, String writer, LocalDateTime createDate, String imagePreview, boolean isLiked) {
+    public PostInfoResponseDto(Long postId, String title, String writer, LocalDateTime createDate, String imagePreview, boolean isLiked) {
         this.postId = postId;
         this.title = title;
         this.writer = writer;
