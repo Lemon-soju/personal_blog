@@ -47,12 +47,19 @@ public class PostController {
     }
 
     @GetMapping("post")
-    public AllPostsResponseDto getPost(@RequestParam(name = "search", required = false) String search,
+    public AllPostsResponseDto getPosts(@RequestParam(name = "search", required = false) String search,
                                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
                                        @RequestParam(name = "count", required = false, defaultValue = "10") int count,
-                                       @RequestParam(name = "writer", required = false) String writer,
                                        @RequestHeader(name = ACCESS_TOKEN, required = false) String accessToken) {
-        return postService.getPostService(search, accessToken, page, count, writer);
+        return postService.getPosts(search, accessToken, page, count);
+    }
+
+    @GetMapping("auth/post/manage")
+    public AllPostsResponseDto getPostsManage(@RequestParam(name = "search", required = false) String search,
+                                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,
+                                        @RequestParam(name = "count", required = false, defaultValue = "10") int count,
+                                        @RequestHeader(name = ACCESS_TOKEN, required = false) String accessToken) {
+        return postService.getPostsManage(search, accessToken, page, count);
     }
 
     @PostMapping("auth/post/delete")
