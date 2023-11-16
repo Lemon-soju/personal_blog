@@ -64,20 +64,48 @@ public class PostService {
     }
 
     @Cacheable(value = "postCacheStore", condition = "#search == null")
-    public AllPostsResponseDto getPostService(String search, String accessToken, int page, int count, String writer) {
-        Pageable pageable = PageRequest.of(page - 1, count, Sort.by(Sort.Direction.DESC, "createDate"));
+    public AllPostsResponseDto getPosts(String search, String accessToken, int page, int count) {
+        Pageable pageable = PageRequest.of(page - 1, count, Sort.by(Sort.Direction.DESC, "id"));
+        // 로그인 한 경우와 안한 경우 구분
         Member findMember = accessToken != null ? jwtService.findMemberByToken(accessToken) : null;
 
         List<Post> findPosts;
-        if (writer != null && findMember != null && writer.equals(findMember.getUid())) {
-            findPosts = postDataRepository.findAllWithFetchJoin(search, writer, pageable);
-        } else {
-            findPosts = postDataRepository.findAllWithFetchJoin(search, null, pageable);
+        findPosts = postDataRepository.findAllWithFetchJoin(search, null, pageable);
+        List<PostInfoResponseDto> postList = matchLike(findMember, findPosts);
+        long totalItemsCount = search == null ? postDataRepository.count() : postDataRepository.countBySearch(search);
+
+        AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
+                .posts(postList)
+                .totalItemsCount(totalItemsCount)
+                .build();
+        return allPostsResponseDto;
+    }
+
+    @Cacheable(value = "postCacheStore", condition = "#search == null")
+    public AllPostsResponseDto getPostsManage(String search, String accessToken, int page, int count) {
+        Pageable pageable = PageRequest.of(page - 1, count, Sort.by(Sort.Direction.DESC, "id"));
+        Member findMember = jwtService.findMemberByToken(accessToken);
+
+        if(findMember == null) {
+            throw new UnauthorizedException();
         }
 
+        List<Post> findPosts;
+        findPosts = postDataRepository.findAllWithFetchJoin(search, findMember.getUid(), pageable);
+        List<PostInfoResponseDto> postList = matchLike(findMember, findPosts);
+        long totalItemsCount = search == null ? postDataRepository.count() : postDataRepository.countBySearch(search);
+
+        AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
+                .posts(postList)
+                .totalItemsCount(totalItemsCount)
+                .build();
+        return allPostsResponseDto;
+    }
+
+    public List<PostInfoResponseDto> matchLike(Member member, List<Post> posts) {
         List<PostInfoResponseDto> postList = new ArrayList<>();
-        for (Post e : findPosts) {
-            boolean isLiked = findMember != null ? isLiked = findMember.getLikes().stream()
+        for (Post e : posts) {
+            boolean isLiked = member != null ? isLiked = member.getLikes().stream()
                     .anyMatch(like -> like.getPost().getId() == e.getId()) : false;
 
             PostInfoResponseDto postInfoResponseDto = PostInfoResponseDto.builder()
@@ -90,12 +118,7 @@ public class PostService {
                     .build();
             postList.add(postInfoResponseDto);
         }
-        long totalItemsCount = search == null ? postDataRepository.count() : postDataRepository.countBySearch(search);
-        AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
-                .posts(postList)
-                .totalItemsCount(totalItemsCount)
-                .build();
-        return allPostsResponseDto;
+        return postList;
     }
 
     @CacheEvict(value = "postCacheStore", allEntries = true)
