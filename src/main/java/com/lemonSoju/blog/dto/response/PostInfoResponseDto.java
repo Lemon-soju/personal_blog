@@ -1,6 +1,7 @@
 package com.lemonSoju.blog.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lemonSoju.blog.domain.Post;
 import lombok.Builder;
 import lombok.Data;
 
@@ -21,12 +22,12 @@ public class PostInfoResponseDto {
     private boolean isLiked;
 
     @Builder
-    public PostInfoResponseDto(Long postId, String title, String writer, LocalDateTime createDate, String imagePreview, boolean isLiked) {
-        this.postId = postId;
-        this.title = title;
-        this.writer = writer;
-        this.createDate = createDate;
-        this.imagePreview = imagePreview;
+    public PostInfoResponseDto(Post post, boolean isLiked) {
+        this.postId = post.getId();
+        this.title = post.getTitle();
+        this.writer = post.getWriter().getUid();
+        this.createDate = post.getCreateDate();
+        this.imagePreview = post.getImagePreview();
         this.isLiked = isLiked;
     }
 }

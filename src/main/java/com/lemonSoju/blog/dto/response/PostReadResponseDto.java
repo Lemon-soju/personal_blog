@@ -1,5 +1,6 @@
 package com.lemonSoju.blog.dto.response;
 
+import com.lemonSoju.blog.domain.Post;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,15 +13,15 @@ public class PostReadResponseDto {
     private String title;
     private String content;
 
-    private String author;
+    private String writer;
     private LocalDateTime createDate;
 
     @Builder
-    public PostReadResponseDto(Long postId, String title, String content, String author, LocalDateTime createDate) {
-        this.postId = postId;
-        this.title = title;
-        this.content = content;
-        this.author = author;
-        this.createDate = createDate;
+    public PostReadResponseDto(Post post) {
+        this.postId = post.getId();
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.writer = post.getWriter().getUid();
+        this.createDate = post.getCreateDate();
     }
 }
