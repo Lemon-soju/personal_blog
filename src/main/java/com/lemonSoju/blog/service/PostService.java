@@ -109,11 +109,7 @@ public class PostService {
                     .anyMatch(like -> like.getPost().getId() == e.getId()) : false;
 
             PostInfoResponseDto postInfoResponseDto = PostInfoResponseDto.builder()
-                    .postId(e.getId())
-                    .title(e.getTitle())
-                    .writer(e.getWriter().getUid())
-                    .createDate(e.getCreateDate())
-                    .imagePreview(e.getImagePreview())
+                    .post(e)
                     .isLiked(isLiked)
                     .build();
             postList.add(postInfoResponseDto);
@@ -136,11 +132,7 @@ public class PostService {
         }
         Post findPost = findOptionalPost.get();
         PostReadResponseDto postReadResponseDto = PostReadResponseDto.builder()
-                .postId(findPost.getId())
-                .title(findPost.getTitle())
-                .content(findPost.getContent())
-                .author(findPost.getWriter().getUid())
-                .createDate(findPost.getCreateDate())
+                .post(findPost)
                 .build();
         return postReadResponseDto;
     }
