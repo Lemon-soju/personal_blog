@@ -81,7 +81,7 @@ public class PostDocTest {
                                 fieldWithPath("postId").description("제목"),
                                 fieldWithPath("title").description("제목"),
                                 fieldWithPath("content").description("내용"),
-                                fieldWithPath("author").description("글쓴이"),
+                                fieldWithPath("writer").description("글쓴이"),
                                 fieldWithPath("createDate").description("생성 날짜"))
                 ));
     }
