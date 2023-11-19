@@ -20,6 +20,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -69,14 +70,13 @@ public class PostService {
         // 로그인 한 경우와 안한 경우 구분
         Member findMember = accessToken != null ? jwtService.findMemberByToken(accessToken) : null;
 
-        List<Post> findPosts;
-        findPosts = postDataRepository.findAllWithFetchJoin(search, null, pageable);
-        List<PostInfoResponseDto> postList = matchLike(findMember, findPosts);
-        long totalItemsCount = search == null ? postDataRepository.count() : postDataRepository.countBySearch(search);
+        Page<Post> findPostsPage;
+        findPostsPage = postDataRepository.findAllWithFetchJoin(search, null, pageable);
+        List<PostInfoResponseDto> postList = matchLike(findMember, findPostsPage.getContent());
 
         AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
                 .posts(postList)
-                .totalItemsCount(totalItemsCount)
+                .totalItemsCount(findPostsPage.getTotalElements())
                 .build();
         return allPostsResponseDto;
     }
@@ -90,14 +90,13 @@ public class PostService {
             throw new UnauthorizedException();
         }
 
-        List<Post> findPosts;
-        findPosts = postDataRepository.findAllWithFetchJoin(search, findMember.getUid(), pageable);
-        List<PostInfoResponseDto> postList = matchLike(findMember, findPosts);
-        long totalItemsCount = search == null ? postDataRepository.count() : postDataRepository.countBySearch(search);
+        Page<Post> findPostsPage;
+        findPostsPage = postDataRepository.findAllWithFetchJoin(search, findMember.getUid(), pageable);
+        List<PostInfoResponseDto> postList = matchLike(findMember, findPostsPage.getContent());
 
         AllPostsResponseDto allPostsResponseDto = AllPostsResponseDto.builder()
                 .posts(postList)
-                .totalItemsCount(totalItemsCount)
+                .totalItemsCount(findPostsPage.getTotalElements())
                 .build();
         return allPostsResponseDto;
     }
