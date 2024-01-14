@@ -1,6 +1,5 @@
 package com.lemonSoju.blog.domain;
 
-
 import lombok.Builder;
 import lombok.Getter;
 

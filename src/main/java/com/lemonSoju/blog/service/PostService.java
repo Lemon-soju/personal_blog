@@ -11,7 +11,6 @@ import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.exception.PostNotFoundException;
 import com.lemonSoju.blog.exception.UnauthorizedException;
-import com.lemonSoju.blog.repository.LikeDataRepository;
 import com.lemonSoju.blog.repository.PostDataRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

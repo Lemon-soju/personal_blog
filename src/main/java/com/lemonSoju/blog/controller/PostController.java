@@ -1,11 +1,11 @@
 package com.lemonSoju.blog.controller;
 
+import com.lemonSoju.blog.annotation.Timer;
 import com.lemonSoju.blog.domain.Member;
 import com.lemonSoju.blog.dto.request.PostDeleteRequestDto;
 import com.lemonSoju.blog.dto.request.PostEditRequestDto;
 import com.lemonSoju.blog.dto.request.PostWriteRequestDto;
 import com.lemonSoju.blog.dto.response.AllPostsResponseDto;
-import com.lemonSoju.blog.dto.response.PostInfoResponseDto;
 import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.service.JwtService;
@@ -19,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.List;
 
 import static com.lemonSoju.blog.service.JwtService.ACCESS_TOKEN;
 
@@ -46,6 +45,7 @@ public class PostController {
         postService.editPost(postEditRequestDto, postId, writer);
     }
 
+    @Timer()
     @GetMapping("post")
     public AllPostsResponseDto getPosts(@RequestParam(name = "search", required = false) String search,
                                        @RequestParam(name = "page", required = false, defaultValue = "1") int page,

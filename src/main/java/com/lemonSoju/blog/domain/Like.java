@@ -1,6 +1,5 @@
 package com.lemonSoju.blog.domain;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +26,7 @@ public class Like {
     private Post post;
 
     /**
-     * 편의 관계 메서드
+     * 연관관계 편의 메서드
      */
     public void addMemberAndPost(Post post, Member member) {
         this.post = post;
