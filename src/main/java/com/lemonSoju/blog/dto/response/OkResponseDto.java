@@ -1,6 +1,5 @@
 package com.lemonSoju.blog.dto.response;
 
-import lombok.Builder;
 import lombok.Data;
 
 @Data

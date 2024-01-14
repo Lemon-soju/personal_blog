@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@AutoConfigureRestDocs(uriScheme = "http", uriHost = "http://3.35.179.185", uriPort = 80)
+@AutoConfigureRestDocs(uriScheme = "https", uriHost = "https://lemonsoju.blog", uriPort = 8080)
 @ExtendWith(RestDocumentationExtension.class)
 @Transactional
 public class MemberDocTest {
