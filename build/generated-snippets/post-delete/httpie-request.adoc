@@ -1,7 +1,7 @@
 [source,bash]
 ----
-$ echo '{"checkedInputs":[790,791]}' | http POST 'http://http://3.35.179.185/auth/post/delete' \
+$ echo '{"checkedInputs":[765,766]}' | http POST 'https://https://lemonsoju.blog:8080/auth/post/delete' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json' \
-    'accessToken:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNDcsImV4cCI6MTY5MzY0NzE0N30.w5EEvaVlWYQNE7S5C367LW0-XPzoGpx0BBM8a0ppxUo'
+    'accessToken:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDYsImV4cCI6MTcwMjE3NzMwNn0.DPm_ynEMyi9H9MoZ14RH-mvNmR4JNeMGYUuoBCNMYJk'
 ----

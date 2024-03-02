@@ -1,6 +1,6 @@
 [source,http,options="nowrap"]
 ----
-GET //3.35.179.185/auth/refreshToken HTTP/1.1
+POST //3.35.179.185/like/post/755 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDQsImV4cCI6MTcwMjE3NzMwNH0.ejfpXSgCfHXnYgsHNFPOjgsA6axYd8WFTRjN_DXLnvQ

@@ -1,4 +1,4 @@
 [source,options="nowrap"]
 ----
-{"checkedInputs":[790,791]}
+{"checkedInputs":[765,766]}
 ----

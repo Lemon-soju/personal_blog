@@ -1,6 +1,6 @@
 [source,http,options="nowrap"]
 ----
-GET //lemonsoju.blog:8080/post?page=1&count=10&writer=test01 HTTP/1.1
+GET //lemonsoju.blog:8080/post/763 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
 Host: https

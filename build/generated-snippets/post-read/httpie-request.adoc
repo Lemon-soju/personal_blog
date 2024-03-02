@@ -1,6 +1,6 @@
 [source,bash]
 ----
-$ http GET 'https://https://lemonsoju.blog:8080/post?page=1&count=10&writer=test01' \
+$ http GET 'https://https://lemonsoju.blog:8080/post/763' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json'
 ----

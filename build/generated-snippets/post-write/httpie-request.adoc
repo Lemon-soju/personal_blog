@@ -1,7 +1,7 @@
 [source,bash]
 ----
-$ echo '{"title":"test title","content":"test content"}' | http POST 'http://http://3.35.179.185/auth/post' \
+$ echo '{"title":"test title","content":"test content"}' | http POST 'https://https://lemonsoju.blog:8080/auth/post' \
     'Content-Type:application/json;charset=UTF-8' \
     'Accept:application/json' \
-    'accessToken:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNTMsImV4cCI6MTY5MzY0NzE1M30.dR1hGCVCIv5ueQjuaB1pjrnkjVQ_fJ6CC9syWOuadfI'
+    'accessToken:eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDcsImV4cCI6MTcwMjE3NzMwN30.85s498JtcCh1dSnn7j23G6W1G5lpGOqVxzApGUNdXdM'
 ----

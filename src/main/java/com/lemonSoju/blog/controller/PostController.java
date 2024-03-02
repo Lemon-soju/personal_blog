@@ -10,7 +10,7 @@ import com.lemonSoju.blog.dto.response.PostReadResponseDto;
 import com.lemonSoju.blog.dto.response.PostWriteResponseDto;
 import com.lemonSoju.blog.service.JwtService;
 import com.lemonSoju.blog.service.PostService;
-import com.lemonSoju.blog.service.S3UploadService;
+//import com.lemonSoju.blog.service.S3UploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +29,7 @@ public class PostController {
 
     private final PostService postService;
     private final JwtService jwtService;
-    private final S3UploadService s3UploadService;
+//    private final S3UploadService s3UploadService;
 
     @PostMapping("auth/post")
     public PostWriteResponseDto createPost(@RequestBody @Valid PostWriteRequestDto postWriteRequestDto
@@ -72,8 +72,8 @@ public class PostController {
         return postService.readPost(postId);
     }
 
-    @PostMapping("auth/uploadImage")
-    public String uploadImage(@RequestPart("img") MultipartFile file) throws IOException {
-        return s3UploadService.saveFile(file);
-    }
+//    @PostMapping("auth/uploadImage")
+//    public String uploadImage(@RequestPart("img") MultipartFile file) throws IOException {
+//        return s3UploadService.saveFile(file);
+//    }
 }
