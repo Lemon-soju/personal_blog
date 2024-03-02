@@ -1,24 +1,32 @@
 |===
 |Path|Type|Description
 
-|`+[].postId+`
+|`+posts.[].postId+`
 |`+Number+`
 |글 번호
 
-|`+[].title+`
+|`+posts.[].title+`
 |`+String+`
 |글 제목
 
-|`+[].writer+`
+|`+posts.[].writer+`
 |`+String+`
 |글쓴이
 
-|`+[].createDate+`
+|`+posts.[].createDate+`
 |`+String+`
 |생성시각
 
-|`+[].imagePreview+`
+|`+posts.[].imagePreview+`
 |`+String+`
 |이미지 미리보기
+
+|`+posts.[].isLiked+`
+|`+Boolean+`
+|찜하기 여부
+
+|`+totalItemsCount+`
+|`+Number+`
+|전체 글 개수
 
 |===

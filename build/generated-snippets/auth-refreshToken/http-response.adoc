@@ -7,5 +7,5 @@ Vary: Access-Control-Request-Headers
 Content-Type: application/json
 Content-Length: 165
 
-{"uid":"test01","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNDcsImV4cCI6MTY5MzczMTc0N30.WdkEi6tbsVu-4NBBTX0YRmIhgI4MuoB4mCXcTqiYcZw"}
+{"uid":"test01","accessToken":"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDQsImV4cCI6MTcwMjI2MTkwNH0.XsRiHL4JcHyQdTWGILXcD32LsVicgc5vk1ZQQ5c9nHM"}
 ----

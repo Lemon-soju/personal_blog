@@ -1,0 +1,24 @@
+|===
+|Path|Type|Description
+
+|`+postId+`
+|`+Number+`
+|제목
+
+|`+title+`
+|`+String+`
+|제목
+
+|`+content+`
+|`+String+`
+|내용
+
+|`+writer+`
+|`+String+`
+|글쓴이
+
+|`+createDate+`
+|`+String+`
+|생성 날짜
+
+|===

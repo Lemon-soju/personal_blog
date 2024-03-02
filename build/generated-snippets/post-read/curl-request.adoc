@@ -1,6 +1,6 @@
 [source,bash]
 ----
-$ curl 'https://https://lemonsoju.blog:8080/post?page=1&count=10&writer=test01' -i -X GET \
+$ curl 'https://https://lemonsoju.blog:8080/post/763' -i -X GET \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json'
 ----

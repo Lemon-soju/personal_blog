@@ -5,7 +5,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 14
+Content-Length: 121
 
-{"postId":770}
+{"postId":763,"title":"test title","content":"test content","writer":"test01","createDate":"2023-12-10T11:31:46.8904491"}
 ----

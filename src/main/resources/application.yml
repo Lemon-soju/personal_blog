@@ -1,38 +1,60 @@
 spring:
+  profiles:
+    active: dev
+
   datasource:
-    url: ${{ secrets.DB_URL }}
-    username: ${{ secrets.DB_USERNAME }}
-    password: ${{ secrets.DB_PASSWORD }}
-    show-sql: true
+    url: jdbc:h2:tcp://localhost/~/Desktop/my_blog/myblog
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+# postgresql 설정
+#    url: jdbc:postgresql://blog.cdnx8jzeu7w1.ap-northeast-2.rds.amazonaws.com:5432/postgres
+#    username: postgres
+#    password: zld132zkd
+#    show-sql: true
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
-        dialect: org.hibernate.dialect.PostgreSQLDialect
-        use_sql_comments: true
+#        dialect: org.hibernate.dialect.PostgreSQLDialect
+#        use_sql_comments: true
+#        show_sql: true
+  logging.level:
+    org.hibernate.SQL: debug
   server:
     servlet:
       session:
         tracking-modes: cookie
 
-cloud:
-  aws:
-    s3:
-      bucket: lemonsoju-bucket
-    region:
-      static: "ap-northeast-2"
-      auto: false
-    stack:
-      auto: false
-    credentials:
-      access-key: ${{ secrets.S3_ACCESS_KEY }}
-      secret-key: ${{ secrets.S3_SECRET_KEY }}
+#cloud:
+#  aws:
+#    s3:
+#      bucket: lemonsoju-bucket
+#    region:
+#      static: "ap-northeast-2"
+#      auto: false
+#    stack:
+#      auto: false
+#    credentials:
+#      access-key: AKIA2GABW3E775HY4FMY
+#      secret-key: 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
 
 jwt:
-  key: ${{ secrets.JWT_KEY }}
+  key: ryszg5rrIOkU3sPAKhsPuoLIXcJ7RX6O5N/StkVmzls=
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+#    com:
+#      amazonaws:
+#        util:
+#          EC2MetadataUtils: error
+#        internal:
+#          InstanceMetadataServiceResourceFetcher: error

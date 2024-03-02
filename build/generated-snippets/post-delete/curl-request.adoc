@@ -1,8 +1,8 @@
 [source,bash]
 ----
-$ curl 'http://http://3.35.179.185/auth/post/delete' -i -X POST \
+$ curl 'https://https://lemonsoju.blog:8080/auth/post/delete' -i -X POST \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
-    -H 'accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNDcsImV4cCI6MTY5MzY0NzE0N30.w5EEvaVlWYQNE7S5C367LW0-XPzoGpx0BBM8a0ppxUo' \
-    -d '{"checkedInputs":[790,791]}'
+    -H 'accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDYsImV4cCI6MTcwMjE3NzMwNn0.DPm_ynEMyi9H9MoZ14RH-mvNmR4JNeMGYUuoBCNMYJk' \
+    -d '{"checkedInputs":[765,766]}'
 ----

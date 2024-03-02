@@ -1,11 +1,11 @@
 [source,http,options="nowrap"]
 ----
-POST //3.35.179.185/auth/post/delete HTTP/1.1
+POST //lemonsoju.blog:8080/auth/post/delete HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Accept: application/json
-accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE2OTM2NDUzNDcsImV4cCI6MTY5MzY0NzE0N30.w5EEvaVlWYQNE7S5C367LW0-XPzoGpx0BBM8a0ppxUo
+accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDYsImV4cCI6MTcwMjE3NzMwNn0.DPm_ynEMyi9H9MoZ14RH-mvNmR4JNeMGYUuoBCNMYJk
 Content-Length: 27
-Host: http
+Host: https
 
-{"checkedInputs":[790,791]}
+{"checkedInputs":[765,766]}
 ----

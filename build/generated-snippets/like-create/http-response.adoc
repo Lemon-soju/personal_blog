@@ -5,7 +5,7 @@ Vary: Origin
 Vary: Access-Control-Request-Method
 Vary: Access-Control-Request-Headers
 Content-Type: application/json
-Content-Length: 14
+Content-Length: 16
 
-{"postId":770}
+{"message":"ok"}
 ----

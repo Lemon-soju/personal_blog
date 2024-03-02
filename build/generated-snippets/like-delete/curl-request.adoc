@@ -1,6 +1,6 @@
 [source,bash]
 ----
-$ curl 'http://http://3.35.179.185/auth/refreshToken' -i -X GET \
+$ curl 'http://http://3.35.179.185/like/post/758' -i -X DELETE \
     -H 'Content-Type: application/json;charset=UTF-8' \
     -H 'Accept: application/json' \
     -H 'accessToken: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0MDEiLCJpYXQiOjE3MDIxNzU1MDQsImV4cCI6MTcwMjE3NzMwNH0.ejfpXSgCfHXnYgsHNFPOjgsA6axYd8WFTRjN_DXLnvQ'
